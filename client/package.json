@@ -17,9 +17,9 @@
     "@babel/polyfill": "*",
     "@babel/preset-env": "*",
     "@babel/preset-react": "*",
-    "webpack": "*",
+    "webpack": "^4.39.2",
     "webpack-cli": "*",
-    "webpack-dev-server": "*"
+    "webpack-dev-server": "^3.8.0"
   },
   "babel": {
     "presets": [
