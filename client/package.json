@@ -1,0 +1,30 @@
+{
+  "name": "cloud-price-compare-client",
+  "description": "This is the react client for the price comparison tool.",
+  "repository": "https://github.com/jonathan-fries/CloudPriceCompare",
+  "version": "0.0.1",
+  "dependencies": {
+    "react": "*",
+    "react-dom": "*",
+    "react-router-dom": "*",
+    "react-scripts": "*"
+  },
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "@babel/core": "*",
+    "@babel/polyfill": "*",
+    "@babel/preset-env": "*",
+    "@babel/preset-react": "*",
+    "webpack": "*",
+    "webpack-cli": "*",
+    "webpack-dev-server": "*"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  }
+}
