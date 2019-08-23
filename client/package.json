@@ -17,6 +17,10 @@
     "@babel/polyfill": "*",
     "@babel/preset-env": "*",
     "@babel/preset-react": "*",
+    "css-loader": "^3.2.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "style-loader": "^1.0.0",
     "webpack": "^4.39.2",
     "webpack-cli": "*",
     "webpack-dev-server": "^3.8.0"
