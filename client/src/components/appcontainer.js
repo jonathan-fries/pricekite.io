@@ -1,14 +1,17 @@
 import {Route} from "react-router-dom";
 import Home from "./home";
 import React from 'react';
-import Navigation from './navigation';
+import Header from './header';
+import About from './about';
 
 export default class Nav extends React.Component {
 
 
     render() {
-        return <Navigation>
+        return <div>
+                <Header />
                 <Route exact path="/" component={Home}/>
-            </Navigation>;
+                <Route path="/about" component={About}/>
+            </div>;
     }
 }
