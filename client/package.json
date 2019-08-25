@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "package": "webpack"
+    "package": "webpack&& deploy.bat"
   },
   "devDependencies": {
     "@babel/core": "*",

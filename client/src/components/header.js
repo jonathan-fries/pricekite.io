@@ -7,8 +7,8 @@ export default class Header extends React.Component {
     render() {
         return <div className='header'>
             <Navigation/>
-            <div className='headerLogo'><img src='/images/pricekite_combined_logo_transparent.png'/></div>
-        </div>;
+            <div className='headerLogo'><img className='logoSrc'/></div>
+        </div>
     }
 
 }
