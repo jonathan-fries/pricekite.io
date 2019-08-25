@@ -1,9 +1,42 @@
-.nav{
-  float:left;
-  ul{
-    list-style-type:none;
-  }
-  li {
+
+@media screen and (min-width: 801px) {
+
+  .nav{
+    float:left;
     float: left;
+    font-size: large;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      float: left;
+    }
+
+    li.icon {display: none;}
+
+    a {
+      display: block;
+      padding: 8px;
+      background-color: black;
+    }
   }
+}
+
+@media screen and (max-width: 800px) {
+  .nav {
+    li {
+          display: none;
+        }
+
+      li.icon {
+        float: left;
+        display: inline-block;
+      }
+
+      a.icon { padding: 2px 0px 0px 0px;}
+    }
 }
