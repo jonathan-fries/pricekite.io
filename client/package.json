@@ -10,16 +10,17 @@
     "react-scripts": "*"
   },
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "package": "webpack"
   },
   "devDependencies": {
     "@babel/core": "*",
     "@babel/polyfill": "*",
     "@babel/preset-env": "*",
     "@babel/preset-react": "*",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
-    "less": "^3.10.3",
-    "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
     "style-loader": "^1.0.0",
     "webpack": "^4.39.2",
     "webpack-cli": "*",

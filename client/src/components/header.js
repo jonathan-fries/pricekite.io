@@ -1,12 +1,13 @@
 import React from 'react';
 import Navigation from './navigation';
+import style from './header.scss';
 
 export default class Header extends React.Component {
 
     render() {
-        return <div>
+        return <div className='header'>
             <Navigation/>
-            <img src='/images/pricekite_logo.png'/>
+            <div className='headerLogo'><img src='/images/pricekite_combined_logo_transparent.png'/></div>
         </div>;
     }
 
