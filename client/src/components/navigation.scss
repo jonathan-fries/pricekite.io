@@ -40,3 +40,31 @@
       a.icon { padding: 2px 0px 0px 0px;}
     }
 }
+
+@media screen and (max-width:800px) {
+  .topNav.responsive {
+    ul {
+      position: absolute;
+      z-index: 1;
+    }
+
+    li.icon {
+      position: relative;
+      left: 0;
+      top: 0;
+    }
+
+    a.icon { padding: 2px 0px 0px 0px; }
+
+    li {
+      float: none;
+      display: inline;
+    }
+
+    li a {
+      display: block;
+      text-align: left;
+
+    }
+  }
+}
