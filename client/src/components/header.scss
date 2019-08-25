@@ -11,6 +11,7 @@
   .header {
     width: 100%;
     height: 90px;
+    position: relative;
     background-color: black;
   }
 
@@ -19,14 +20,15 @@
 @media screen and (min-width: 801px) {
 
   .logoSrc{
-    content:url("/images/pricekite_combined_logo_transparent_alt.png");
+    content:url("/images/pricekite_combined_logo_transparent_alt_2.png");
   }
 
 
 
   .header {
     width: 100%;
-    height: 120px;
+    height: 90px;
+    position: relative;
     background-color: black;
   }
 
