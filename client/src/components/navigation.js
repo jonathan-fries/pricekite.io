@@ -1,28 +1,24 @@
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import React from 'react';
-import {Link, Route} from "react-router-dom";
-import './navigation.scss'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class Navigation extends React.Component {
 
-    responsiveMenu(){
-      var x = document.getElementById("topNavDiv");
-      if (x.className === "nav") {
-          x.className += " responsive";
-      } else {
-          x.className = "nav";
-      }
-    }
-
-    render() {
-        return <div id="topNavDiv" className="nav">
-            <nav><ul>
-                <li class="icon">
-                    <a href="javascript:void(0);" onClick={this.responsiveMenu} class="icon"><img src="/images/navicon_small.png" /></a>
-                </li>
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/about">About</Link></li>
-            </ul></nav>
-            {this.props.children}</div>;
-    }
+render() {
+    return <Navbar bg="dark">
+    <Navbar.Brand href="#home">
+      <img
+        src="/images/pricekite_combined_logo_transparent_alt_2.png"
+        className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+      />
+    </Navbar.Brand>
+    <Nav className="mr-auto">
+      <Nav.Link href="/">Home</Nav.Link>
+      <Nav.Link href="/about">About</Nav.Link>
+    </Nav>
+  </Navbar>;
+}
 
 }
