@@ -37,7 +37,14 @@
         display: inline-block;
       }
 
-      a.icon { padding: 2px 0px 0px 0px;}
+      a.icon {
+        padding: 2px 0px 0px 0px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
     }
 }
 
@@ -46,15 +53,20 @@
     ul {
       position: absolute;
       z-index: 1;
+      top: 50;
     }
 
     li.icon {
-      position: relative;
-      left: 0;
-      top: 0;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
     }
 
-    a.icon { padding: 2px 0px 0px 0px; }
+    a.icon {
+      padding: 2px 0px 0px 0px;
+    }
 
     li {
       float: none;
@@ -64,7 +76,6 @@
     li a {
       display: block;
       text-align: left;
-
     }
   }
 }

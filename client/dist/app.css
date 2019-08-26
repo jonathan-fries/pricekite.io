@@ -26,19 +26,19 @@
     padding: 2px 0px 0px 0px; } }
 
 @media screen and (max-width: 800px) {
-  .topNav.responsive ul {
+  .nav.responsive ul {
     position: absolute;
     z-index: 1; }
-  .topNav.responsive li.icon {
+  .nav.responsive li.icon {
     position: relative;
     left: 0;
     top: 0; }
-  .topNav.responsive a.icon {
+  .nav.responsive a.icon {
     padding: 2px 0px 0px 0px; }
-  .topNav.responsive li {
+  .nav.responsive li {
     float: none;
     display: inline; }
-  .topNav.responsive li a {
+  .nav.responsive li a {
     display: block;
     text-align: left; } }
 
