@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default class Navigation extends React.Component {
 
 render() {
-    return <Navbar expand="lg" bg="dark" variant="dark">
+    return <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect='true'>
     <Navbar.Brand href="/">
       <img
         src="/images/logo.png"
@@ -19,8 +19,8 @@ render() {
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav id="pricekiteNavigation" className="mr-auto">
-       <LinkContainer to='/about'>
-         <Nav.Link >About</Nav.Link>
+       <LinkContainer  to='/about'>
+         <Nav.Link>About</Nav.Link>
        </LinkContainer>
       </Nav>
     </Navbar.Collapse>
