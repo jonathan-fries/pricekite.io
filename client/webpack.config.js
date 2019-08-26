@@ -4,7 +4,7 @@ module.exports = {
     devServer: {
         inline:true,
         contentBase:'./public',
-        port: 14173,
+        port: 15051,
         historyApiFallback: true
     },
     mode: 'development',
