@@ -1,17 +1,16 @@
 import {Route} from "react-router-dom";
 import Home from "./home";
 import React from 'react';
-import Header from './header';
+import RbNavBar from "./rbNavBar";
 import About from './about';
 import './appcontainer.scss';
 import Footer from './footer';
 
-export default class Nav extends React.Component {
-
+export default class AppContainer extends React.Component {
 
     render() {
         return <div>
-                <Header />
+                <RbNavBar />
                 <div className='clearBoth'></div>
                 <Route exact path="/" component={Home}/>
                 <Route path="/about" component={About}/>
