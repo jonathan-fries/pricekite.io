@@ -10,8 +10,6 @@ render() {
     <Navbar.Brand href="#home">
       <img
         src="/images/pricekite_combined_logo_transparent_alt_2.png"
-        width="30"
-        height="30"
         className="d-inline-block align-top"
         alt="React Bootstrap logo"
       />
