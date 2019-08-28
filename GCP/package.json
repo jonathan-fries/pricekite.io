@@ -1,0 +1,13 @@
+{
+  "name": "cloud-price-compare-GCP-function",
+  "description": "This is the GCP function code.",
+  "repository": "https://github.com/jonathan-fries/CloudPriceCompare/GCP",
+  "version": "0.0.1",
+  "dependencies": {
+    "got": "^9.6.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "devDependencies": {}
+}
