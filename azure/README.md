@@ -1,6 +1,10 @@
 #Azure Functions application\
 
-While the deployment of the client app on GCP is relatively straightforward, the deployment of the Azure Function on Azure is not.  
+IMPORTANT: As currently written the rate card retrieval function must run on .Net Core v1 on Windows.  If you have v2 selected, it won't work.
+
+Yes, your serverless function must have a server OS Selected!!!
+
+Provisioning an Azure Function App appropriately and given the necessary permissions is involved.
 
 I predominantly followed this tutorial in order to get through MOST of the setup:
 
