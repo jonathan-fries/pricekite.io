@@ -4,6 +4,7 @@
   "repository": "https://github.com/jonathan-fries/CloudPriceCompare/GCP",
   "version": "0.0.1",
   "dependencies": {
+    "defiant": "^1.4.5",
     "got": "^9.6.0"
   },
   "scripts": {
