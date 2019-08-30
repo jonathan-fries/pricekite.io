@@ -24,12 +24,13 @@ exports.IpAddrPrices = (req, res) => {
       	for (i = 0; skusReturned > i; i += 1) {
           //console.log(skus[i].name);
       		if (skus[i].name === "services/6F81-5844-456A/skus/66A2-68EA-56BE") {
-            var ipAddressSku = skus[i];
+            ipAddressSku = JSON.parse(JSON.stringify(skus[i]));
             console.log("Found it.");
       			break;
       		}
       	}
 
+        var skuId;
         var nanos;
         var hourly;
         var monthly;
@@ -37,13 +38,16 @@ exports.IpAddrPrices = (req, res) => {
 
         if(ipAddressSku)
         {
-          console.log("We got one let's do something.")
-          var pricingExpression = JSON.parse(JSON.stringify(ipAddressSku.pricingInfo.pricingExpression));
-          console.log(pricingExpression);
-          nanos = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].nanos));
-          //hourly = nanos/1000000000;
-          //monthly = hourly * 24 * 30;
-          //pricingJson = "{'nanos':${nanos}, hourly: {$hourly}, monthly: {$monthly}}";
+          skuId = ipAddressSku.skuId;
+          //console.log("We got one let's do something.");
+          var pricingExpression = JSON.parse(JSON.stringify(ipAddressSku.pricingInfo[0].pricingExpression));
+          //console.log("Now look at the expression.");
+          //console.log(pricingExpression);
+          nanos = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].unitPrice.nanos));
+          hourly = nanos/1000000000;
+          monthly = hourly * 24 * 30;
+          console.log("make some JSON");
+          pricingJson = "{ 'skuId' : " + skuId + ", 'nanos' : " + nanos + ", 'hourly' : " + hourly + ", 'monthly' : " + monthly + " }";
         }
 
       console.log(pricingJson);
