@@ -55,6 +55,11 @@ exports.IpAddrPrices = (req, res) => {
         }
 
       console.log(pricingJson);
+      //Test
+      res.set('Access-Control-Allow-Origin', '*');
+      //Prod
+      //res.set('Access-Control-Allow-Origin', 'http://www.pricekite.io');
+      //res.set('Access-Control-Allow-Origin', 'https://www.pricekite.io');
   		res.status(200).send(pricingJson);
 
 	}).catch(error => {
