@@ -30,24 +30,28 @@ exports.IpAddrPrices = (req, res) => {
       		}
       	}
 
-        var skuId;
-        var nanos;
-        var hourly;
-        var monthly;
-        var pricingJson = "{Borked}";
 
+        console.log('Define JSON:');
+        var pricingJson = {};
+        console.log (pricingJson);
+
+        //if we have gotten the sku, we flatten the JSON for reasonability and consumption
         if(ipAddressSku)
         {
-          skuId = ipAddressSku.skuId;
-          //console.log("We got one let's do something.");
+          //console.log("Add SkuId");
+          pricingJson.skuId = ipAddressSku.skuId;
+          //console.log (pricingJson)
+
           var pricingExpression = JSON.parse(JSON.stringify(ipAddressSku.pricingInfo[0].pricingExpression));
-          //console.log("Now look at the expression.");
+
           //console.log(pricingExpression);
-          nanos = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].unitPrice.nanos));
-          hourly = nanos/1000000000;
-          monthly = hourly * 24 * 30;
-          console.log("make some JSON");
-          pricingJson = "{ 'skuId' : " + skuId + ", 'nanos' : " + nanos + ", 'hourly' : " + hourly + ", 'monthly' : " + monthly + " }";
+          pricingJson.nanos = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].unitPrice.nanos));
+          //console.log (pricingJson);
+          pricingJson.hourly = pricingJson.nanos/1000000000;
+          //console.log (pricingJson);
+          pricingJson.monthly = pricingJson.hourly * 24 * 30;
+          //console.log (pricingJson);
+          pricingJson. currencyCode = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].unitPrice.currencyCode));
         }
 
       console.log(pricingJson);
