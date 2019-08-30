@@ -32,7 +32,7 @@ export default class GoogleIpAddress extends React.Component{
       return <table width="100%" >
                 <tbody>
                     <tr><td><b>Item</b></td><td><b>Monthly</b></td><td><b>SKU</b></td></tr>
-                    <tr><td>Unused Address</td><td>{this.state.gcpPriceItem.monthly}</td><td>{this.state.gcpPriceItem.skuId}</td></tr>
+                    <tr><td>Unused Address</td><td>${(+this.state.gcpPriceItem.monthly).toFixed(2)}</td><td>{this.state.gcpPriceItem.skuId}</td></tr>
                     <tr><td width="30%">In Use (Standard VM):</td><td>$2.88/month</td><td>For future, no SKU</td></tr>
                     <tr><td width="30%">In Use (Preemptible VM):</td><td>$1.44/month</td><td>For future, no SKU</td></tr>
                 </tbody></table>;
