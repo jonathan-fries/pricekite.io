@@ -7,6 +7,8 @@ export default class Home extends React.Component{
 
     render(){
         return <div>
+                  <h1>Static IP Address Pricing</h1>
+                  <p>Current price of IP address across cloud providers, only Google is live pricing.</p>
                   <h2>Google</h2>
                   <GoogleIpAddress/>
                   <h2>Azure</h2>
