@@ -5,7 +5,7 @@ export default class GoogleIpAddress extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {gcpPriceItem:{ monthly: '', skuId: ''}};
+        this.state = {gcpPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
         var ws = "https://us-central1-pricekite.cloudfunctions.net/ip-addr-prices";
 
@@ -40,7 +40,7 @@ export default class GoogleIpAddress extends React.Component{
         </thead>
         <tbody>
           <tr>
-            <td>Unused Address</td>
+            <td>{this.state.gcpPriceItem.name}</td>
             <td>${(+this.state.gcpPriceItem.monthly).toFixed(2)}</td>
             <td>{this.state.gcpPriceItem.skuId}</td>
           </tr>
