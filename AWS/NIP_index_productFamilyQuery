@@ -1,7 +1,9 @@
 
 
 exports.ipAddressPrice = async (event) => {
-    // TODO implement
+    // This is a working example of how to query the product family,
+    //this will be re-used later when we need to get all the IP Addresses.
+    //out of scope for now.
 
     var params = {
       Filters: [

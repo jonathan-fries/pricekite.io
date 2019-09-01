@@ -1,25 +1,12 @@
-
-
 exports.ipAddressPrice = async (event) => {
-    // TODO implement
+    // this does not run in production, but it is a working example of how to pull the
+    // service description - this was used to help figure out skus, originally
 
     var params = {
-      Filters: [
-          {
-            Field: "ServiceCode",
-            Type: "TERM_MATCH",
-            Value: "AmazonEC2"
-           },
-         {
-        Field: "productFamily",
-        Type: "TERM_MATCH",
-        Value: "IP Address"
-       }
-      ],
-      FormatVersion: "aws_v1",
-      MaxResults: 25,
-      ServiceCode: "AmazonEC2"
-     };
+        FormatVersion: "aws_v1",
+        MaxResults: 100,
+        ServiceCode: "AmazonEC2"
+    };
 
     var AWS = require('aws-sdk');
 
@@ -29,7 +16,7 @@ exports.ipAddressPrice = async (event) => {
 
     const promise = new Promise(function(resolve, reject) {
 
-        pricing.getProducts(params, function (err, data) {
+        pricing.describeServices(params, function (err, data) {
 
             if (err)
             {
