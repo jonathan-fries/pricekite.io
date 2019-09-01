@@ -12,8 +12,10 @@ export default class AppContainer extends React.Component {
         return <div>
                 <Navigation />
                 <div className='clearBoth'></div>
-                <Route exact path="/" component={Home}/>
-                <Route path="/about" component={About}/>
+                <div className='contentBox'>
+                  <Route exact path="/" component={Home}/>
+                  <Route path="/about" component={About}/>
+                </div>
                 <Footer/>
             </div>;
     }

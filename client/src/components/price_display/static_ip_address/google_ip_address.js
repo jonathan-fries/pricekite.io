@@ -1,10 +1,11 @@
 import React from 'react';
+import Table from 'react-bootstrap/Table';
 
 export default class GoogleIpAddress extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {gcpPriceItem:{ monthly: '', skuId: ''}};
+        this.state = {gcpPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
         var ws = "https://us-central1-pricekite.cloudfunctions.net/ip-addr-prices";
 
@@ -29,13 +30,33 @@ export default class GoogleIpAddress extends React.Component{
 
       //const gcpPriceItem = this.props.gcpPriceItem;
 
-      return <table width="100%" >
-                <tbody>
-                    <tr><td><b>Item</b></td><td><b>Monthly</b></td><td><b>SKU</b></td></tr>
-                    <tr><td>Unused Address</td><td>${(+this.state.gcpPriceItem.monthly).toFixed(2)}</td><td>{this.state.gcpPriceItem.skuId}</td></tr>
-                    <tr><td width="30%">In Use (Standard VM):</td><td>$2.88/month</td><td>For future, no SKU</td></tr>
-                    <tr><td width="30%">In Use (Preemptible VM):</td><td>$1.44/month</td><td>For future, no SKU</td></tr>
-                </tbody></table>;
-          }
+      return <Table striped bordered hover responsive="sm">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Monthly</th>
+            <th>SKU</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{this.state.gcpPriceItem.name}</td>
+            <td>${(+this.state.gcpPriceItem.monthly).toFixed(2)}</td>
+            <td>{this.state.gcpPriceItem.skuId}</td>
+          </tr>
+          <tr>
+            <td>In Use (Standard VM):</td>
+            <td>$2.88/month</td>
+            <td>FUTURE Jan. 1, 2020</td>
+          </tr>
+          <tr>
+            <td>In Use (Preemptible VM):</td>
+            <td>$1.44/month</td>
+            <td>FUTURE Jan. 1, 2020</td>
+          </tr>
+        </tbody>
+      </Table>;
+
+      }
 
 }
