@@ -1,5 +1,4 @@
 import React from 'react';
-import style from './footer.scss';
 import Navbar from 'react-bootstrap/Navbar';
 
 export default class Header extends React.Component {
