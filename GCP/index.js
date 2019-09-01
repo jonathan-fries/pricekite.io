@@ -44,6 +44,7 @@ exports.IpAddrPrices = (req, res) => {
 
           var pricingExpression = JSON.parse(JSON.stringify(ipAddressSku.pricingInfo[0].pricingExpression));
 
+          pricingJson.name = "Unused IP";
           //console.log(pricingExpression);
           pricingJson.nanos = JSON.parse(JSON.stringify(pricingExpression.tieredRates[1].unitPrice.nanos));
           //console.log (pricingJson);
