@@ -56,7 +56,7 @@ exports.ipAddressPrice = async (event) => {
                 pricingJson.hourly = Object.values(priceDimensions)[0].pricePerUnit.USD;
 
                 //pricingJson.hourly = raw.PriceList[0].terms.OnDemand.a.priceDimensions.a.pricePerUnit.USD;
-                pricingJson.monthly = pricingJson.pricePerUnit * 24 * 30;
+                pricingJson.monthly = pricingJson.hourly * 24 * 30;
 
                 var response = {
                     "statusCode": 200,

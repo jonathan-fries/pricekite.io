@@ -7,16 +7,17 @@ export default class AWSIpAddress extends React.Component{
         super(props);
         this.state = {awsPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
-        var ws = "https://kew5wzdxwh.execute-api.us-east-1.amazonaws.com/default/ipAddressPrice";
+        var ws = "https://kew5wzdxwh.execute-api.us-east-1.amazonaws.com/prod";
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ws);
-        xhr.setRequestHeader('x-api-key', 'y1wZ0dFDvA3nVPHbJP7Gcawl2V8L6PGu17uIxs0t');
+
         xhr.onload = () => {
             if(xhr.status === 200){
                 console.log(xhr.responseText);
                 var local_awsPriceItem = [];
-                local_awsPriceItem = JSON.parse(xhr.responseText);
+                local_awsPriceItem = JSON.parse(xhr.response);
+                local_awsPriceItem = JSON.parse(local_awsPriceItem.body);
                 this.setState({awsPriceItem:local_awsPriceItem});
             }
             else{
