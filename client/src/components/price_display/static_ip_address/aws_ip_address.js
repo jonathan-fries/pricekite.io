@@ -1,5 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import './column_styles.scss'
 
 export default class AWSIpAddress extends React.Component{
 
@@ -32,7 +33,7 @@ export default class AWSIpAddress extends React.Component{
     return <Table striped bordered hover responsive="sm">
       <thead>
         <tr>
-          <th>Item</th>
+          <th className='headerColumn'>Item</th>
           <th>Monthly</th>
           <th>SKU</th>
         </tr>
