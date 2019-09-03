@@ -103,7 +103,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     return token == null
         ? req.CreateResponse(HttpStatusCode.BadRequest, "It borked.")
-        : req.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(ipAddresses));
+        : req.CreateResponse(HttpStatusCode.OK, JsonConvert.SerializeObject(ipAddresses), "application/json");
 
 }
 
