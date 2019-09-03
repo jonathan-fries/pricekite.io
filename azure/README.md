@@ -1,4 +1,4 @@
-#Azure Functions application\
+#Azure Functions application
 
 IMPORTANT: As currently written the rate card retrieval function must run on .Net Core v1 on Windows.  If you have v2 selected, it won't work.
 
