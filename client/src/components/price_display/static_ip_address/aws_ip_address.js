@@ -34,8 +34,8 @@ export default class AWSIpAddress extends React.Component{
       <thead>
         <tr>
           <th className='headerColumn'>Item</th>
-          <th>Monthly</th>
-          <th>SKU</th>
+          <th className='headerColumn'>Monthly</th>
+          <th className='headerColumn2'>SKU</th>
         </tr>
       </thead>
       <tbody>

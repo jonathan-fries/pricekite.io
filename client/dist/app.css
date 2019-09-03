@@ -1,3 +1,9 @@
+.headerColumn {
+  width: 30%; }
+
+.headerColumn2 {
+  width: 40%; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -22,7 +28,7 @@ body {
   font-size: medium;
   min-width: 100%;
   margin: 0px;
-  padding: 0;
+  padding: 0px;
   height: 100%; }
 
 ul {
