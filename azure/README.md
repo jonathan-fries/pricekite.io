@@ -32,3 +32,9 @@ SECRET_KEY
 5. Create client secret.
 
 The link explains all this in better detail, but just so you know what you're in for, those are the steps.
+
+Additionally, you need to configure your application to use CORS.  Follow this guide (toward the end):
+
+https://docs.microsoft.com/en-us/azure/azure-functions/functions-how-to-use-azure-function-app-settings
+
+It is important to note, you may need to remove some entries from the CORS list to get it to work.
