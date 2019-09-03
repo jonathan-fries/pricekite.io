@@ -47,11 +47,18 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         throw new InvalidOperationException("Failed to obtain the JWT token");
     }
 
+    //string requestURL = String.Format("{0}/{1}/{2}/{3}",
+    //                   "https://management.azure.com",
+    //                   "subscriptions",
+    //                   Environment.GetEnvironmentVariable("SUBSCRIPTION_ID"),
+    //                   "providers/Microsoft.Commerce/RateCard?api-version=2016-08-31-preview&filter=OfferDurableId=MS-AZR-0121p&Currency=USD&Locale=en-US&RegionInfo=US");
+    //        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestURL);
+
     string requestURL = String.Format("{0}/{1}/{2}/{3}",
                        "https://management.azure.com",
                        "subscriptions",
                        Environment.GetEnvironmentVariable("SUBSCRIPTION_ID"),
-                       "providers/Microsoft.Commerce/RateCard?api-version=2016-08-31-preview&filter=OfferDurableId=MS-AZR-0121p&Currency=USD&Locale=en-US&RegionInfo=US");
+                       "providers/Microsoft.Commerce/RateCard?api-version=2016-08-31-preview&$filter=OfferDurableId eq 'MS-AZR-0121p' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestURL);
 
             // Add the OAuth Authorization header, and Content Type header
@@ -86,7 +93,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             }
             catch(Exception e)
             {
-                log.Info(String.Format("{0} \n\n{1}", e.Message, e.InnerException != null ? e.InnerException.Message : ""));
+                log.Info("Something went wrong.  Here is what we got:");
+                log.Info(String.Format("{0} \n\n Testing \n\n{1}", e.Message, e.InnerException != null ? e.InnerException.Message : ""));
             }
 
     return token == null
