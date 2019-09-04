@@ -26,13 +26,6 @@ export default class About extends React.Component{
             console.log(entry.fields.description)
             local_contentfulItems.description = entry.fields.description;
 
-            //var i = 0;
-
-            //for(i; i < entry.fields.description.content.length; i++)
-            //{
-            //  local_contentfulItems.description[i] = entry.fields.description.content[i].content[0].value;
-            //}
-
             this.setState({contentfulItems:local_contentfulItems});
 
           })
