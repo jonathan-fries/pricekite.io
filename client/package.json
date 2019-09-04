@@ -4,6 +4,7 @@
   "repository": "https://github.com/jonathan-fries/CloudPriceCompare",
   "version": "0.0.1",
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^13.4.0",
     "contentful": "^7.9.1",
     "react": "*",
     "react-dom": "*",

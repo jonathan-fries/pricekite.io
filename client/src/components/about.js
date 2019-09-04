@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 export default class About extends React.Component{
 
@@ -24,12 +24,14 @@ export default class About extends React.Component{
             var local_contentfulItems = {title:'', description:[]};
             local_contentfulItems.title = entry.fields.title;
             console.log(entry.fields.description)
-            var i = 0;
+            local_contentfulItems.description = entry.fields.description;
 
-            for(i; i < entry.fields.description.content.length; i++)
-            {
-              local_contentfulItems.description[i] = entry.fields.description.content[i].content[0].value;
-            }
+            //var i = 0;
+
+            //for(i; i < entry.fields.description.content.length; i++)
+            //{
+            //  local_contentfulItems.description[i] = entry.fields.description.content[i].content[0].value;
+            //}
 
             this.setState({contentfulItems:local_contentfulItems});
 
@@ -43,8 +45,7 @@ export default class About extends React.Component{
     render(){
         return <div>
                   <h2>{this.state.contentfulItems.title}</h2>
-                  <p>Pricekite is a site providing information on cloud pricing.</p>
-                  <p>This site was launched on August 23, 2019.</p>
+                  {documentToReactComponents(this.state.contentfulItems.description)}
                 </div>;
     }
 }
