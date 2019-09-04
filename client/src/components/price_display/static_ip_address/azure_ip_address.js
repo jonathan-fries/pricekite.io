@@ -1,12 +1,13 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import './column_styles.scss'
+import { Wave } from 'react-animated-text';
 
 export default class AzureIpAddress extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {azurePriceItems:[{ name: 'Thinking...', monthly: '', skuId: ''}]};
+        this.state = {loading: true, azurePriceItems:[{ name: 'Thinking...', monthly: '', skuId: ''}]};
 
         var ws = "https://pricekite-io.azurewebsites.net/api/ipAddrPrice";
 
@@ -20,6 +21,7 @@ export default class AzureIpAddress extends React.Component{
                 local_azurePriceItem = JSON.parse(xhr.response);
                 local_azurePriceItem = JSON.parse(local_azurePriceItem);
                 this.setState({azurePriceItems:local_azurePriceItem});
+                this.setState({loading: false});
             }
             else{
                 console.log("Error calling web service.")
@@ -33,6 +35,7 @@ export default class AzureIpAddress extends React.Component{
 
     const prices = [];
     var i = 0;
+    const loading = this.state.loading;
 
     for(i; i < this.state.azurePriceItems.length; i++)
     {
@@ -43,18 +46,11 @@ export default class AzureIpAddress extends React.Component{
       </tr> );
     }
 
-    return <Table striped bordered hover responsive="sm">
-      <thead>
-        <tr>
-        <th className='headerColumn'>Item</th>
-        <th className='headerColumn'>Monthly</th>
-        <th className='headerColumn2'>SKU</th>
-        </tr>
-      </thead>
-      <tbody>
-      {prices}
-      </tbody>
-    </Table>;
+    //const component = ({loading}) => {loading ? '<p>We be waiting.</p>' : '<Table striped bordered hover responsive=\"sm\"><thead><tr><th className=\'headerColumn\'>Item</th><th className=\'headerColumn\'>Monthly</th><th className=\'headerColumn2\'>SKU</th></tr></thead><tbody>{prices}</tbody></Table>}' }
+
+    return <div>
+    { loading === true ? <Wave text="Thinking..." effect="fadeOut"/> : <Table striped bordered hover responsive="sm"><thead><tr><th className='headerColumn'>Item</th><th className='headerColumn'>Monthly</th><th className='headerColumn2'>SKU</th></tr></thead><tbody>{prices}</tbody></Table>}
+    </div>
   }
 
 }
