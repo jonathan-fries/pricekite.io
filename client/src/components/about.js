@@ -5,7 +5,7 @@ export default class About extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {contentfulItems:{ title: 'Abut Pricekite', descriptions:[]}};
+        this.state = {contentfulItems:{ title: 'About Pricekite', descriptions:[]}};
 
         var contentful = require('contentful');
 
@@ -23,8 +23,16 @@ export default class About extends React.Component{
             console.log(entry.fields.title)
             var local_contentfulItems = {title:'', description:[]};
             local_contentfulItems.title = entry.fields.title;
+            console.log(entry.fields.description)
+            var i = 0;
+
+            for(i; i < entry.fields.description.content.length; i++)
+            {
+              local_contentfulItems.description[i] = entry.fields.description.content[i].content[0].value;
+            }
+
             this.setState({contentfulItems:local_contentfulItems});
-            //console.log(entry.fields.description)
+
           })
           .catch((err) => {
             console.log(err.message)
