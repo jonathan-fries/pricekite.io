@@ -1,12 +1,13 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import './column_styles.scss'
+import { Wave } from 'react-animated-text';
 
 export default class AWSIpAddress extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {awsPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
+        this.state = {loading: true, awsPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
         var ws = "https://kew5wzdxwh.execute-api.us-east-1.amazonaws.com/prod";
 
@@ -20,6 +21,7 @@ export default class AWSIpAddress extends React.Component{
                 local_awsPriceItem = JSON.parse(xhr.response);
                 local_awsPriceItem = JSON.parse(local_awsPriceItem.body);
                 this.setState({awsPriceItem:local_awsPriceItem});
+                this.setState({loading: false});
             }
             else{
                 console.log("Error calling web service.")
@@ -30,7 +32,12 @@ export default class AWSIpAddress extends React.Component{
     }
 
   render(){
-    return <Table striped bordered hover responsive="sm">
+
+    const loading = this.state.loading;
+
+
+    return <div>
+    { loading === true ? <Wave text="Thinking..." effect="fadeOut"/> : <Table striped bordered hover responsive="sm">
       <thead>
         <tr>
           <th className='headerColumn'>Item</th>
@@ -50,7 +57,7 @@ export default class AWSIpAddress extends React.Component{
           <td>{this.state.awsPriceItem.sku}</td>
         </tr>
       </tbody>
-    </Table>;
+    </Table> } </div>
   }
 
 }
