@@ -1,12 +1,13 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import './column_styles.scss'
+import { Wave } from 'react-animated-text';
 
 export default class GoogleIpAddress extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {gcpPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
+        this.state = { loading: true, gcpPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
         var ws = "https://us-central1-pricekite.cloudfunctions.net/ip-addr-prices";
 
@@ -18,6 +19,7 @@ export default class GoogleIpAddress extends React.Component{
                 var local_gcpPriceItem = [];
                 local_gcpPriceItem = JSON.parse(xhr.responseText);
                 this.setState({gcpPriceItem:local_gcpPriceItem});
+                this.setState({loading: false});
             }
             else{
                 console.log("Error calling web service.")
@@ -29,9 +31,11 @@ export default class GoogleIpAddress extends React.Component{
 
   render(){
 
-      //const gcpPriceItem = this.props.gcpPriceItem;
+    const loading = this.state.loading;
 
-      return <Table striped bordered hover responsive="sm">
+
+    return <div>
+    { loading === true ? <Wave text="Thinking..." effect="fadeOut"/> : <Table striped bordered hover responsive="sm">
         <thead>
           <tr>
           <th className='headerColumn'>Item</th>
@@ -56,7 +60,7 @@ export default class GoogleIpAddress extends React.Component{
             <td>FUTURE Jan. 1, 2020</td>
           </tr>
         </tbody>
-      </Table>;
+      </Table>} </div>
 
       }
 
