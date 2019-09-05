@@ -13,8 +13,13 @@
 .Dead {
   background-color: red; }
 
-.statusDiv {
-  float: right; }
+@media all and (max-width: 800px) {
+  .statusDiv {
+    float: left; } }
+
+@media all and (min-width: 800px) {
+  .statusDiv {
+    float: right; } }
 
 .ipAddressText {
   width: 70%;
