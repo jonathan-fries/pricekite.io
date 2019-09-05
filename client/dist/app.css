@@ -4,6 +4,25 @@
 .headerColumn2 {
   width: 40%; }
 
+.statusHeaderColumn {
+  width: 25px; }
+
+.Alive {
+  background-color: lightgreen; }
+
+.Dead {
+  background-color: red; }
+
+.statusDiv {
+  float: right; }
+
+.ipAddressText {
+  width: 70%;
+  float: left; }
+
+.clearIt {
+  clear: both; }
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
