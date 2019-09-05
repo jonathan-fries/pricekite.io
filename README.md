@@ -5,4 +5,4 @@ For starters we will be looking at just IP Addresses from Google, Microsoft, and
 
 The site is currently live at www.pricekite.io.
 
-As of this writing, data is only live from GCP, though other prices are current.
+We currently have live data from all 3 cloud providers.
