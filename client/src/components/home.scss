@@ -10,10 +10,17 @@
   }
 }
 
+@media all and (max-width: 800px) {
+  .ipAddressText{
+    float: left;
+  }
+}
 
-.ipAddressText{
-  width: 70%;
-  float: left;
+@media all and (min-width: 800px) {
+  .ipAddressText{
+    width: 70%;
+    float: left;
+  }
 }
 
 .clearIt {
