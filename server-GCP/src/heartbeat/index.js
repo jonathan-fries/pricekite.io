@@ -5,6 +5,7 @@
  * @param {!express:Response} res HTTP response context.
  */
 exports.heartbeat = (req, res) => {
-  var heartbeat = {status: 'alive'};
+  var heartbeat = {status: 'Alive'};
+  res.set('Access-Control-Allow-Origin', '*');
   res.status(200).send(heartbeat);
 };
