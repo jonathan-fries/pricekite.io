@@ -5,7 +5,6 @@
  * @param {!express:Response} res HTTP response context.
  */
 exports.heartbeat = (req, res) => {
-  var heartbeat;
-  heartbeat.status = 'alive';
+  var heartbeat = {status: 'alive'};
   res.status(200).send(heartbeat);
 };
