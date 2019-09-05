@@ -3,6 +3,8 @@ import GoogleIpAddress from './price_display/static_ip_address/google_ip_address
 import AzureIpAddress from './price_display/static_ip_address/azure_ip_address';
 import AWSIpAddress from './price_display/static_ip_address/aws_ip_address';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import StatusIndicator from './status_indicator/status_indicator';
+import './home.scss';
 
 export default class Home extends React.Component{
 
@@ -40,14 +42,18 @@ export default class Home extends React.Component{
 
     render(){
         return <div>
-                  <h2>{this.state.contentfulItems.title}</h2>
-                  {documentToReactComponents(this.state.contentfulItems.description)}
+                  <div><div className="ipAddressText"><h2>{this.state.contentfulItems.title}</h2>
+                  <div><p>{documentToReactComponents(this.state.contentfulItems.description)}</p></div></div>
+                  <div className="statusDiv"><StatusIndicator/></div></div>
+                  <div className="clearIt"></div>
+                  <div>
                   <h2>Google</h2>
                   <GoogleIpAddress/>
                   <h2>AWS</h2>
                   <AWSIpAddress />
                   <h2>Azure</h2>
                   <AzureIpAddress />
+                  </div>
                 </div>;
     }
 }
