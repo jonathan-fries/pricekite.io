@@ -47,11 +47,11 @@ export default class Home extends React.Component{
                   <div className="statusDiv"><StatusIndicator/></div></div>
                   <div className="clearIt"></div>
                   <div>
-                  <h2>Google</h2>
+                  <h2>Google</h2><span>Region: US-Central1</span>
                   <GoogleIpAddress/>
-                  <h2>AWS</h2>
+                  <h2>AWS</h2><span>Region: US East (N. Virginia)</span>
                   <AWSIpAddress />
-                  <h2>Azure</h2>
+                  <h2>Azure</h2><span>Region: East US</span>
                   <AzureIpAddress />
                   </div>
                 </div>;
