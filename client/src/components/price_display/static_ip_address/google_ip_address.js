@@ -9,7 +9,7 @@ export default class GoogleIpAddress extends React.Component{
         super(props);
         this.state = { loading: true, gcpPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
-        var ws = "https://us-central1-pricekite.cloudfunctions.net/ip-addr-prices";
+        var ws = "https://api.pricekite.io/v1/gcp-ip-address-prices";
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ws);
