@@ -32,7 +32,7 @@ export default class StatusIndicator extends React.Component{
         };
         xhr.send();
 
-        var ws_aws = "http://api.pricekite.io/v1/aws-heartbeat";
+        var ws_aws = "https://api.pricekite.io/v1/aws-heartbeat";
 
         var xhr_aws = new XMLHttpRequest();
         xhr_aws.open('GET', ws_aws);
