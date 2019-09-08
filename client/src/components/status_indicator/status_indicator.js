@@ -12,7 +12,7 @@ export default class StatusIndicator extends React.Component{
 
         this.state = { gcp_loading: true, gcp_alive: 'Unknown' , aws_loading:true, aws_alive: 'Unkown', azure_loading: true, azure_alive: 'Unknown' };
 
-        var ws = "https://us-central1-pricekite.cloudfunctions.net/heartbeat";
+        var ws = "https://api.pricekite.io/v1/gcp-heartbeat";
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ws);
@@ -32,7 +32,7 @@ export default class StatusIndicator extends React.Component{
         };
         xhr.send();
 
-        var ws_aws = "https://kew5wzdxwh.execute-api.us-east-1.amazonaws.com/prod/heartbeat";
+        var ws_aws = "http://api.pricekite.io/v1/aws-heartbeat";
 
         var xhr_aws = new XMLHttpRequest();
         xhr_aws.open('GET', ws_aws);
