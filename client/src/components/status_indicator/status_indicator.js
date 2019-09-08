@@ -32,7 +32,7 @@ export default class StatusIndicator extends React.Component{
         };
         xhr.send();
 
-        var ws_aws = "http://api.pricekite.io/v1/aws-heartbeat";
+        var ws_aws = "https://api.pricekite.io/v1/aws-heartbeat";
 
         var xhr_aws = new XMLHttpRequest();
         xhr_aws.open('GET', ws_aws);
@@ -53,7 +53,7 @@ export default class StatusIndicator extends React.Component{
         xhr_aws.send();
 
 
-        var ws_azure = "https://pricekite-io.azurewebsites.net/api/heartbeat";
+        var ws_azure = "https://api.pricekite.io/v1/azure-heartbeat";
 
         var xhr_azure = new XMLHttpRequest();
         xhr_azure.open('GET', ws_azure);
@@ -99,7 +99,7 @@ export default class StatusIndicator extends React.Component{
         <tr>
           <td className={gcpAlive} >{ gcpLoading ? <Wave text="......" effect="fadeOut"/> : <div>{gcpAlive}</div> } </td>
           <td className={awsAlive} >{ awsLoading ? <Wave text="......" effect="fadeOut"/> : <div>{awsAlive}</div> } </td>
-          <td className={azureAlive} > { azureLoading ? <Wave text="......" effect="fadeOut"/> : <div>{awsAlive}</div> }</td>
+          <td className={azureAlive} > { azureLoading ? <Wave text="......" effect="fadeOut"/> : <div>{azureAlive}</div> }</td>
         </tr>
       </tbody>
     </Table>

@@ -43,7 +43,7 @@ export default class Home extends React.Component{
     render(){
         return <div>
                   <div><div className="ipAddressText"><h2>{this.state.contentfulItems.title}</h2>
-                  <div><p>{documentToReactComponents(this.state.contentfulItems.description)}</p></div></div>
+                  <div>{documentToReactComponents(this.state.contentfulItems.description)}</div></div>
                   <div className="statusDiv"><StatusIndicator/></div></div>
                   <div className="clearIt"></div>
                   <div>

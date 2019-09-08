@@ -9,7 +9,7 @@ export default class AzureIpAddress extends React.Component{
         super(props);
         this.state = {loading: true, azurePriceItems:[{ name: 'Thinking...', monthly: '', skuId: ''}]};
 
-        var ws = "https://pricekite-io.azurewebsites.net/api/ipAddrPrice";
+        var ws = "https://api.pricekite.io/v1/azure-ip-address-prices";
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ws);
