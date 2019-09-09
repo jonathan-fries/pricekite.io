@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import './column_styles.scss'
+import '../column_styles.scss'
 import { Wave } from 'react-animated-text';
 
 export default class AzureIpAddress extends React.Component{
