@@ -1,11 +1,12 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import './status_indicator.scss'
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { Wave } from 'react-animated-text';
 
 //import { Wave } from 'react-animated-text';
 
-export default class StatusIndicator extends React.Component{
+export default class ComputeServerlessSummary extends React.Component{
 
   constructor(props){
         super(props);
@@ -87,14 +88,19 @@ export default class StatusIndicator extends React.Component{
     var awsAlive = this.state.aws_alive;
     var azureAlive = this.state.azure_alive;
 
-    return <Table striped bordered hover responsive="sm">
-      <tbody>
-        <tr>
-          <td className={gcpAlive} >{ gcpLoading ? <Wave text="GCP" effect="fadeOut"/> : <div>GCP</div> } </td>
-          <td className={awsAlive} >{ awsLoading ? <Wave text="AWS" effect="fadeOut"/> : <div>AWS</div> }</td>
-          <td className={azureAlive} > { azureLoading ? <Wave text="Azure" effect="fadeOut"/> : <div>Azure</div> }</td>
-        </tr>
-      </tbody>
-    </Table>
+    return <div><div><DropdownButton id="dropdown-basic-button" title="Dropdown button">
+              <Dropdown.Item href="#/action-1">US East 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">US East 2</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">US West 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">US West 2</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">US Central 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-1">Hong Kong 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Mumbai 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">London 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Frankfurt 1</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">US Central 1</Dropdown.Item>
+      </DropdownButton></div>
+      <div></div>
+      </div>
   }
 }

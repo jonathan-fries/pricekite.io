@@ -6,6 +6,7 @@ import About from './about';
 import './appcontainer.scss';
 import Footer from './footer';
 import ComputeServerless from './compute_serverless.js'
+import Regions from './regions.js';
 
 export default class AppContainer extends React.Component {
 
@@ -16,6 +17,7 @@ export default class AppContainer extends React.Component {
                 <div className='contentBox'>
                   <Route exact path="/" component={Home}/>
                   <Route path="/compute" component={ComputeServerless}/>
+                  <Route path="/regions" component={Regions}/>
                   <Route path="/about" component={About}/>
                 </div>
                 <Footer/>

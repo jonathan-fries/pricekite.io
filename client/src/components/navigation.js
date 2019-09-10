@@ -22,6 +22,9 @@ render() {
       <LinkContainer  to='/compute'>
         <Nav.Link>Compute</Nav.Link>
       </LinkContainer>
+      <LinkContainer  to='/regions'>
+        <Nav.Link>Regions</Nav.Link>
+      </LinkContainer>
        <LinkContainer  to='/about'>
          <Nav.Link>About</Nav.Link>
        </LinkContainer>
