@@ -9,7 +9,7 @@ export default class Navigation extends React.Component {
 
 render() {
     return <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect='true'>
-    <Navbar.Brand href="/">
+    <Navbar.Brand href="/compute">
       <img
         src="/images/logo.png"
         className="d-inline-block align-top"
