@@ -1,11 +1,12 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { Wave } from 'react-animated-text';
-import ServerlessButton from './serverless_button.js'
+import ServerlessButton from './button.js'
+import TableDisplay from './table_display.js'
 
 //import { Wave } from 'react-animated-text';
 
-export default class ComputeServerlessSummary extends React.Component{
+export default class Summary extends React.Component{
 
   constructor(props){
         super(props);
@@ -85,39 +86,12 @@ export default class ComputeServerlessSummary extends React.Component{
     var azureLoading = this.state.azure_loading;
 
     //const gcpPrices = this.state.gcp_prices;
-    const awsPrices = this.state.aws_prices;
-    const azurePrices = this.state.azure_prices;
+    const localAwsPrices = this.state.aws_prices[0];
+    const localAzurePrices = this.state.azure_prices[0];
 
     return <div><div><ServerlessButton/></div>
       <div></div>
-      <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <Table>
-        <thead>
-          <tr>
-            <td>Provider</td>
-            <td>Daily*</td>
-            <td>Base Units</td>
-            <td>Base Price</td>
-            <td>Sku</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{azurePrices[0].provider}</td>
-            <td>${+(azurePrices[0].daily).toFixed(2)}</td>
-            <td>{azurePrices[0].unit}</td>
-            <td>${azurePrices[0].pricePerUnit}</td>
-            <td>{azurePrices[0].sku}</td>
-          </tr>
-          <tr>
-            <td>{awsPrices[0].provider}</td>
-            <td>${+(awsPrices[0].daily).toFixed(2)}</td>
-            <td>{awsPrices[0].unit}</td>
-            <td>${awsPrices[0].pricePerUnit}</td>
-            <td>{awsPrices[0].sku}</td>
-          </tr>
-        </tbody>
-      </Table>
-      }
+      <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} /> }
       <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
       </div>
       </div>

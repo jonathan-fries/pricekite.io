@@ -2,7 +2,7 @@ import React from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import StatusIndicator from './status_indicator/status_indicator';
 import './home.scss';
-import ComputeServerlessSummary from './price_display/compute_serverless/compute_serverless_summary.js';
+import Summary from './price_display/compute_serverless/summary.js';
 
 export default class ComputeServerless extends React.Component{
 
@@ -45,7 +45,7 @@ export default class ComputeServerless extends React.Component{
                   <div className="statusDiv"><StatusIndicator/></div></div>
                   <div className="clearIt"></div>
                   <div>
-                    <ComputeServerlessSummary />
+                    <Summary />
                   </div>
                 </div>;
     }

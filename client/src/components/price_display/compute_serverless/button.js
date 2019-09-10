@@ -13,7 +13,7 @@ export default class ServerlessButton extends React.Component{
       }
 
     render(){
-        return <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+        return <DropdownButton id="dropdown-basic-button" title="Select Region">
                   <Dropdown.Item href="#/action-1">US East 1</Dropdown.Item>
                   <Dropdown.Item href="#/action-2">US East 2</Dropdown.Item>
                   <Dropdown.Item href="#/action-3">US West 1</Dropdown.Item>
