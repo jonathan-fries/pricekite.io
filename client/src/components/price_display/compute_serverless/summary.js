@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from 'react-bootstrap/Table';
 import { Wave } from 'react-animated-text';
 import ServerlessButton from './button.js'
 import TableDisplay from './table_display.js'
+import './summary.scss';
 
 //import { Wave } from 'react-animated-text';
 
@@ -11,7 +11,7 @@ export default class Summary extends React.Component{
   constructor(props){
         super(props);
 
-        this.state = { gcp_loading: true, gcp_prices: [] , aws_loading:true, aws_prices: [], azure_loading: true, azure_prices: [] };
+        this.state = { gcp_loading: true, gcp_current_price: {}, gcp_prices: [] , aws_loading:true, aws_current_price:{}, aws_prices: [], azure_loading: true, azure_current_price:{}, azure_prices: [] };
 
         this.handleChange = this.handleChange.bind(this);
         this.findRegionRecord = this.findRegionRecord.bind(this);
@@ -49,7 +49,8 @@ export default class Summary extends React.Component{
 
                 var local_price = this.findRegionRecord(1000, local_aws_prices);
 
-                this.setState({aws_prices:local_price});
+                this.setState({aws_current_price:local_price});
+                this.setState({aws_prices: local_aws_prices});
                 this.setState({aws_loading: false});
             }
             else{
@@ -74,7 +75,8 @@ export default class Summary extends React.Component{
 
                 var local_price = this.findRegionRecord(1000, local_azure_prices);
 
-                this.setState({azure_prices:local_price});
+                this.setState({azure_prices: local_azure_prices});
+                this.setState({azure_current_price:local_price});
                 this.setState({azure_loading: false});
             }
             else{
@@ -87,8 +89,17 @@ export default class Summary extends React.Component{
 
     }
 
-    handleChange(value){
-      console.log(value);
+    handleChange(key, evt){
+      console.log(evt);
+
+      var value = evt.currentTarget.attributes[0].value;
+
+      var aws_record = this.findRegionRecord(value, this.state.aws_prices);
+      this.setState({aws_current_price:aws_record});
+
+      var azure_record = this.findRegionRecord(value, this.state.azure_prices);
+      this.setState({azure_current_price:azure_record});
+
     }
 
 
@@ -99,22 +110,25 @@ export default class Summary extends React.Component{
     var azureLoading = this.state.azure_loading;
 
     //const gcpPrices = this.state.gcp_prices;
-    const localAwsPrices = this.state.aws_prices;
-    const localAzurePrices = this.state.azure_prices;
+    const localAwsPrices = this.state.aws_current_price;
+    const localAzurePrices = this.state.azure_current_price;
 
-    return <div><div><ServerlessButton  OnChangeDone={this.handleChange}/></div>
-      <div></div>
-      <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} /> }
-      <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
-      </div>
-      </div>
+    return <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
+        <div className='buttonDiv'><ServerlessButton  OnChangeDone={this.handleChange}/></div>
+        <div></div>
+        <div>
+          <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} />
+          <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
+        </div>
+        </div>} </div>;
   }
 
   findRegionRecord(regionId, records)
   {
 
-    var regionRecord = {provider: 'Not Found'};
+    var regionRecord = {provider: 'Not Found', daily: 0.00 };
     var i = 0;
+    regionId = parseInt(regionId);
 
       for(i; i < records.length; i++)
       {
