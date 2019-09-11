@@ -4,9 +4,6 @@
 .headerColumn2 {
   width: 40%; }
 
-.statusHeaderColumn {
-  width: 25px; }
-
 .Alive {
   background-color: lightgreen; }
 
@@ -62,4 +59,53 @@ body {
 
 ul {
   margin: 0; }
+
+.buttonFloat {
+  float: right; }
+
+.providerColumn {
+  width: 30px;
+  min-width: 30px; }
+
+.dailyColumn {
+  width: 40px;
+  min-width: 40px; }
+
+.regionColumn {
+  width: 115px;
+  min-width: 115px; }
+
+.buttonDiv {
+  padding: 8px;
+  float: left; }
+
+.textStuff {
+  float: left;
+  width: 80%; }
+
+.regionsText {
+  float: left; }
+
+.clearIt {
+  clear: both; }
+
+@media all and (max-width: 800px) {
+  .statusDiv {
+    float: left; } }
+
+@media all and (min-width: 800px) {
+  .statusDiv {
+    float: right; } }
+
+@media all and (max-width: 800px) {
+  .ipAddressText {
+    float: left; } }
+
+@media all and (min-width: 800px) {
+  .ipAddressText {
+    width: 70%;
+    float: left; } }
+
+.clearIt {
+  clear: both; }
 

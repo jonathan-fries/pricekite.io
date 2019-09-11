@@ -46,7 +46,7 @@ export default class Regions extends React.Component{
                   <div>{ loading ? <div><p>Because every cloud provider looks at the world a little differently, we had to come up with a means to compare the prices around the world.  This involved looking at each provider's regions and find a way to map them, where possible.</p><p>When a cloud provider did not supply a region, we have either had to map it to geographically equivalent region (this was the approach in Europe where there are a lot of data centers) or simply excluding the cloud supplier from that particular comparison.</p><p>In the latter case, you will see the cloud provider marked as NONE in the matrix.</p></div> : documentToReactComponents(this.state.contentfulItems.description) }</div></div></div>
                   <div className="clearIt"></div>
                   <div>
-                    <Table>
+                    <Table striped bordered hover responsive="sm">
                         <thead>
                           <tr>
                             <th>Pricekite Region</th>
@@ -57,88 +57,142 @@ export default class Regions extends React.Component{
                         </thead>
                         <tbody>
                           <tr>
-                            <td>US East 1</td>
+                            <td>USA East 1</td>
                             <td>US East (N. Virginia)</td>
                             <td>East US</td>
                             <td>us-east4</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>USA East 2</td>
+                            <td>US East (Ohio)</td>
+                            <td>East US 2</td>
+                            <td>us-east1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>USA West 1</td>
+                            <td>US West (N. California)</td>
+                            <td>West US</td>
+                            <td>us-west2</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>USA West 2</td>
+                            <td>US West (Oregon)</td>
+                            <td>West US 2</td>
+                            <td>us-west1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>USA Central 1</td>
+                            <td>NONE</td>
+                            <td>Central US</td>
+                            <td>us-central1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Canada 1</td>
+                            <td>Canada (Central)</td>
+                            <td>Canada Central</td>
+                            <td>northamerica-northeast1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Hong Kong 1</td>
+                            <td>Asia Pacific (Hong Kong)</td>
+                            <td>East Asia</td>
+                            <td>asia-east2</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Mumbai 1</td>
+                            <td>Asia Pacific (Mumbai)</td>
+                            <td>West India</td>
+                            <td>asia-south1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Osaka 1</td>
+                            <td>Asia Pacific (Osaka-Local)</td>
+                            <td>Japan West</td>
+                            <td>asia-northeast2</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Seoul 1</td>
+                            <td>Asia Pacific (Seoul)</td>
+                            <td>Korea Central</td>
+                            <td>None</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Sinagpore 1</td>
+                            <td>Asia Pacific (Singapore)</td>
+                            <td>Southeast Asia</td>
+                            <td>asia-southeast1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Australia East 1</td>
+                            <td>Asia Pacific (Sydney)</td>
+                            <td>Australia East</td>
+                            <td>australia-southeast1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Tokyo 1</td>
+                            <td>Asia Pacific (Tokyo)</td>
+                            <td>Japan East</td>
+                            <td>asia-northeast1</td>
                           </tr>
                           <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>Beijing 1</td>
+                            <td>China (Beijing)</td>
+                            <td>China North</td>
+                            <td>NONE</td>
+                          </tr>
+                          <tr>
+                            <td>Frankfurt 1</td>
+                            <td>EU (Frankfurt)</td>
+                            <td>Germany West Central</td>
+                            <td>europe-west-3</td>
+                          </tr>
+                          <tr>
+                            <td>Ireland 1</td>
+                            <td>EU (Ireland)</td>
+                            <td>North Europe</td>
+                            <td>NONE</td>
+                          </tr>
+                          <tr>
+                            <td>London 1</td>
+                            <td>EU (London)</td>
+                            <td>UK South</td>
+                            <td>euorope-west2</td>
+                          </tr>
+                          <tr>
+                            <td>Paris 1</td>
+                            <td>EU (Paris)</td>
+                            <td>France Central</td>
+                            <td>None</td>
+                          </tr>
+                          <tr>
+                            <td>Europe North 1</td>
+                            <td>EU (Stockholm)</td>
+                            <td>Norway East</td>
+                            <td>europe-north1</td>
+                          </tr>
+                          <tr>
+                            <td>Middle East 1</td>
+                            <td>Middle East (Bahrain)</td>
+                            <td>UAE Central</td>
+                            <td>NONE</td>
+                          </tr>
+                          <tr>
+                            <td>Sao Paolo 1</td>
+                            <td>South America (Sao Paulo)</td>
+                            <td>Brazil South</td>
+                            <td>southamerica-east1</td>
+                          </tr>
+                          <tr>
+                            <td>USA Gov East 1</td>
+                            <td>AWS GovCloud (US-East)</td>
+                            <td>US Gov Virginia</td>
+                            <td>NONE</td>
+                          </tr>
+                          <tr>
+                            <td>USA Gov East 2</td>
+                            <td>AWS GovCloud (US-West)</td>
+                            <td>US Gov Arizona</td>
+                            <td>NONE</td>
                           </tr>
                         </tbody>
                     </Table>
