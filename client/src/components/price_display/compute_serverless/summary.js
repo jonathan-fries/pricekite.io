@@ -13,6 +13,9 @@ export default class Summary extends React.Component{
 
         this.state = { gcp_loading: true, gcp_prices: [] , aws_loading:true, aws_prices: [], azure_loading: true, azure_prices: [] };
 
+        this.handleChange = this.handleChange.bind(this);
+        this.findRegionRecord = this.findRegionRecord.bind(this);
+
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-prices";
 
         this.xhr = new XMLHttpRequest();
@@ -43,7 +46,10 @@ export default class Summary extends React.Component{
                 var local_aws_prices = {};
                 local_aws_prices = JSON.parse(this.xhr_aws.responseText);
                 local_aws_prices = JSON.parse(local_aws_prices.body);
-                this.setState({aws_prices:local_aws_prices});
+
+                var local_price = this.findRegionRecord(1000, local_aws_prices);
+
+                this.setState({aws_prices:local_price});
                 this.setState({aws_loading: false});
             }
             else{
@@ -65,7 +71,10 @@ export default class Summary extends React.Component{
                 var local_azure_prices = {};
                 local_azure_prices = JSON.parse(this.xhr_azure.responseText);
                 local_azure_prices = JSON.parse(local_azure_prices);
-                this.setState({azure_prices:local_azure_prices});
+
+                var local_price = this.findRegionRecord(1000, local_azure_prices);
+
+                this.setState({azure_prices:local_price});
                 this.setState({azure_loading: false});
             }
             else{
@@ -78,6 +87,10 @@ export default class Summary extends React.Component{
 
     }
 
+    handleChange(value){
+      console.log(value);
+    }
+
 
   render(){
 
@@ -86,14 +99,32 @@ export default class Summary extends React.Component{
     var azureLoading = this.state.azure_loading;
 
     //const gcpPrices = this.state.gcp_prices;
-    const localAwsPrices = this.state.aws_prices[0];
-    const localAzurePrices = this.state.azure_prices[0];
+    const localAwsPrices = this.state.aws_prices;
+    const localAzurePrices = this.state.azure_prices;
 
-    return <div><div><ServerlessButton/></div>
+    return <div><div><ServerlessButton  OnChangeDone={this.handleChange}/></div>
       <div></div>
       <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} /> }
       <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
       </div>
       </div>
   }
+
+  findRegionRecord(regionId, records)
+  {
+
+    var regionRecord = {provider: 'Not Found'};
+    var i = 0;
+
+      for(i; i < records.length; i++)
+      {
+        if(records[i].pricekiteRegionId === regionId)
+        {
+          regionRecord = records[i];
+        }
+      }
+
+      return regionRecord;
+  }
+
 }
