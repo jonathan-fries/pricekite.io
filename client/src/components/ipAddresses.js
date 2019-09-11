@@ -1,14 +1,16 @@
 import React from 'react';
+import GoogleIpAddress from './price_display/static_ip_address/google_ip_address';
+import AzureIpAddress from './price_display/static_ip_address/azure_ip_address';
+import AWSIpAddress from './price_display/static_ip_address/aws_ip_address';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import StatusIndicator from './status_indicator/status_indicator';
-import './home.scss';
-import Summary from './price_display/compute_serverless/summary.js';
+import './ipAddresses.scss';
 
-export default class ComputeServerless extends React.Component{
+export default class Home extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {contentfulItems:{ title: 'Serverless Compute Pricing', descriptions:[]}};
+        this.state = {contentfulItems:{ title: 'Static IP Address Pricing', descriptions:[]}};
 
         var contentful = require('contentful');
 
@@ -17,7 +19,7 @@ export default class ComputeServerless extends React.Component{
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        client.getEntry('1vsV40J7PtxvwjXMFwx8CV')
+        client.getEntry('6NW2FdhjgFdWo1ISgltEUp')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -45,7 +47,12 @@ export default class ComputeServerless extends React.Component{
                   <div className="statusDiv"><StatusIndicator/></div></div>
                   <div className="clearIt"></div>
                   <div>
-                    <Summary />
+                  <h2>Google</h2><span>Region: US-Central1</span>
+                  <GoogleIpAddress/>
+                  <h2>AWS</h2><span>Region: US East (N. Virginia)</span>
+                  <AWSIpAddress />
+                  <h2>Azure</h2><span>Region: East US</span>
+                  <AzureIpAddress />
                   </div>
                 </div>;
     }
