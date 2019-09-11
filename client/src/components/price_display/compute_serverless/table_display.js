@@ -1,6 +1,5 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import { Wave } from 'react-animated-text';
 import './table_display.scss';
 
 //import { Wave } from 'react-animated-text';

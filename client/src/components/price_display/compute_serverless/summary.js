@@ -2,6 +2,7 @@ import React from 'react';
 import { Wave } from 'react-animated-text';
 import ServerlessButton from './button.js'
 import TableDisplay from './table_display.js'
+import GoogleDisplay from './google_display.js'
 import './summary.scss';
 
 //import { Wave } from 'react-animated-text';
@@ -23,9 +24,9 @@ export default class Summary extends React.Component{
         this.xhr.onload = () => {
             if(this.xhr.status === 200){
                 console.log(this.xhr.responseText);
-                var local_gcp_hearbeat = {};
-                local_gcp_hearbeat = JSON.parse(xhr.responseText);
-                this.setState({gcp_prices:local_gcp_hearbeat.status});
+                var local_gcp_prices = {};
+                local_gcp_prices = JSON.parse(this.xhr.responseText);
+                this.setState({gcp_prices:local_gcp_prices});
                 this.setState({gcp_loading: false});
             }
             else{
@@ -34,7 +35,7 @@ export default class Summary extends React.Component{
                 this.setState({gcp_loading: false});
             }
         };
-        //this.xhr.send();
+        this.xhr.send();
 
         var ws_aws = "https://api.pricekite.io/v1/aws-compute-serverless-prices";
 
@@ -89,6 +90,13 @@ export default class Summary extends React.Component{
 
     }
 
+    componentWillUnmount()
+    {
+      this.xhr.abort();
+      this.xhr_aws.abort();
+      this.xhr_azure.abort();
+    }
+
     handleChange(key, evt){
       console.log(evt);
 
@@ -109,7 +117,7 @@ export default class Summary extends React.Component{
     var awsLoading = this.state.aws_loading;
     var azureLoading = this.state.azure_loading;
 
-    //const gcpPrices = this.state.gcp_prices;
+    const localGcpPrices = this.state.gcp_prices;
     const localAwsPrices = this.state.aws_current_price;
     const localAzurePrices = this.state.azure_current_price;
 
@@ -120,7 +128,9 @@ export default class Summary extends React.Component{
           <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} />
           <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
         </div>
-        </div>} </div>;
+        </div>}
+        { gcpLoading ? <Wave text="Thinking..." effect="fadeOut" /> : <GoogleDisplay googlePrices={localGcpPrices} />}
+        </div>;
   }
 
   findRegionRecord(regionId, records)
