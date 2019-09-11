@@ -15,7 +15,10 @@ export default class GoogleDisplay extends React.Component{
       {
         const googlePrices = this.props.googlePrices;
 
-        return <div><Table striped bordered hover responsive="sm">
+        return <div><h2>Google</h2>
+        <p>Google is different.  They have 1 sku for the whole world and they charge by invocations, instead of duration.</p>
+        <p>Here is the base sku, more information is necessary to understand and compare prices.</p>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <td className='providerColumn'>...</td>
@@ -33,6 +36,8 @@ export default class GoogleDisplay extends React.Component{
             </tr>
           </tbody>
         </Table>
+        <p>In order to compare the price we must think about how long a function will run.</p>
+        <p>Below are some relevant run times, to use in comparing prices.  By figuring out how many times a function would fit into a second, we can do some basic multiplication to figure out a daily rate.</p>
         <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
@@ -86,7 +91,10 @@ export default class GoogleDisplay extends React.Component{
               <td>'Price * 600 * 60 * 24'</td>
             </tr>
           </tbody>
-        </Table></div>;
+        </Table>
+        <p>So, at times below 20 ms, Google becomes expensive compared with AWS and Azure.  The heartbeat function that powers the staus indicator above typically takes approximately 3 ms to run on GCP.  This is expensive, relatively speaking.</p>
+        <p>Currently, (9/11/19) times at or above 25 ms are always cheaper on GCP.  While times between the two can vary depending on which region you run them in.  The rate retrieval function typically runs in the neighborhood of 50 ms, making it relatively cheap.</p>
+        </div>;
       }
 
     }

@@ -122,8 +122,10 @@ export default class Summary extends React.Component{
     const localAzurePrices = this.state.azure_current_price;
 
     return <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
+    <div className='textStuff'><h2>AWS and Azure</h2>
+    <p>Azure and AWS are easy to compare.  AWS' pricing is more consistent, but it is differentiated by a unique sku per region.</p>
+    <p>You can change the region by clicking on the button below.</p></div>
         <div className='buttonDiv'><ServerlessButton  OnChangeDone={this.handleChange}/></div>
-        <div></div>
         <div>
           <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} />
           <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>

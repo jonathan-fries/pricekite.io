@@ -16,7 +16,8 @@ export default class TableDisplay extends React.Component{
         const azurePrices = this.props.azurePrices;
         const awsPrices = this.props.awsPrices;
 
-        return <Table striped bordered hover responsive="sm">
+        return <div>
+        <Table striped bordered hover responsive="sm">
           <thead>
             <tr>
               <td className='providerColumn'>...</td>
@@ -45,7 +46,7 @@ export default class TableDisplay extends React.Component{
               <td>{awsPrices.sku}</td>
             </tr>
           </tbody>
-        </Table>;
+        </Table></div>;
       }
 
     }
