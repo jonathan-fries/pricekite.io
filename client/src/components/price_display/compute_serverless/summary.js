@@ -1,8 +1,9 @@
 import React from 'react';
-import Table from 'react-bootstrap/Table';
 import { Wave } from 'react-animated-text';
 import ServerlessButton from './button.js'
 import TableDisplay from './table_display.js'
+import GoogleDisplay from './google_display.js'
+import './summary.scss';
 
 //import { Wave } from 'react-animated-text';
 
@@ -11,7 +12,7 @@ export default class Summary extends React.Component{
   constructor(props){
         super(props);
 
-        this.state = { gcp_loading: true, gcp_prices: [] , aws_loading:true, aws_prices: [], azure_loading: true, azure_prices: [] };
+        this.state = { gcp_loading: true, gcp_current_price: {}, gcp_prices: [] , aws_loading:true, aws_current_price:{}, aws_prices: [], azure_loading: true, azure_current_price:{}, azure_prices: [] };
 
         this.handleChange = this.handleChange.bind(this);
         this.findRegionRecord = this.findRegionRecord.bind(this);
@@ -23,9 +24,9 @@ export default class Summary extends React.Component{
         this.xhr.onload = () => {
             if(this.xhr.status === 200){
                 console.log(this.xhr.responseText);
-                var local_gcp_hearbeat = {};
-                local_gcp_hearbeat = JSON.parse(xhr.responseText);
-                this.setState({gcp_prices:local_gcp_hearbeat.status});
+                var local_gcp_prices = {};
+                local_gcp_prices = JSON.parse(this.xhr.responseText);
+                this.setState({gcp_prices:local_gcp_prices});
                 this.setState({gcp_loading: false});
             }
             else{
@@ -34,7 +35,7 @@ export default class Summary extends React.Component{
                 this.setState({gcp_loading: false});
             }
         };
-        //this.xhr.send();
+        this.xhr.send();
 
         var ws_aws = "https://api.pricekite.io/v1/aws-compute-serverless-prices";
 
@@ -49,7 +50,8 @@ export default class Summary extends React.Component{
 
                 var local_price = this.findRegionRecord(1000, local_aws_prices);
 
-                this.setState({aws_prices:local_price});
+                this.setState({aws_current_price:local_price});
+                this.setState({aws_prices: local_aws_prices});
                 this.setState({aws_loading: false});
             }
             else{
@@ -74,7 +76,8 @@ export default class Summary extends React.Component{
 
                 var local_price = this.findRegionRecord(1000, local_azure_prices);
 
-                this.setState({azure_prices:local_price});
+                this.setState({azure_prices: local_azure_prices});
+                this.setState({azure_current_price:local_price});
                 this.setState({azure_loading: false});
             }
             else{
@@ -87,8 +90,24 @@ export default class Summary extends React.Component{
 
     }
 
-    handleChange(value){
-      console.log(value);
+    componentWillUnmount()
+    {
+      this.xhr.abort();
+      this.xhr_aws.abort();
+      this.xhr_azure.abort();
+    }
+
+    handleChange(key, evt){
+      console.log(evt);
+
+      var value = evt.currentTarget.attributes[0].value;
+
+      var aws_record = this.findRegionRecord(value, this.state.aws_prices);
+      this.setState({aws_current_price:aws_record});
+
+      var azure_record = this.findRegionRecord(value, this.state.azure_prices);
+      this.setState({azure_current_price:azure_record});
+
     }
 
 
@@ -98,23 +117,30 @@ export default class Summary extends React.Component{
     var awsLoading = this.state.aws_loading;
     var azureLoading = this.state.azure_loading;
 
-    //const gcpPrices = this.state.gcp_prices;
-    const localAwsPrices = this.state.aws_prices;
-    const localAzurePrices = this.state.azure_prices;
+    const localGcpPrices = this.state.gcp_prices;
+    const localAwsPrices = this.state.aws_current_price;
+    const localAzurePrices = this.state.azure_current_price;
 
-    return <div><div><ServerlessButton  OnChangeDone={this.handleChange}/></div>
-      <div></div>
-      <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} /> }
-      <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
-      </div>
-      </div>
+    return <div>{ (awsLoading || azureLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
+    <div className='textStuff'><h2>AWS and Azure</h2>
+    <p>Azure and AWS are easy to compare.  AWS' pricing is more consistent, but it is differentiated by a unique sku per region.</p>
+    <p>You can change the region by clicking on the <b>Select Region</b> button.</p></div>
+        <div className='buttonDiv'><ServerlessButton  OnChangeDone={this.handleChange}/></div>
+        <div>
+          <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} />
+          <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
+        </div>
+        </div>}
+        { gcpLoading ? <Wave text="Thinking..." effect="fadeOut" /> : <GoogleDisplay googlePrices={localGcpPrices} />}
+        </div>;
   }
 
   findRegionRecord(regionId, records)
   {
 
-    var regionRecord = {provider: 'Not Found'};
+    var regionRecord = {provider: 'Not Found', daily: 0.00 };
     var i = 0;
+    regionId = parseInt(regionId);
 
       for(i; i < records.length; i++)
       {
