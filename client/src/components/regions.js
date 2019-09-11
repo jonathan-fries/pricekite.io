@@ -43,7 +43,7 @@ export default class Regions extends React.Component{
 
         return <div>
                   <div><div className="regionsText"><h2>{this.state.contentfulItems.title}</h2>
-                  <div>{ loading ? <div><p>Because every cloud provider looks at the world a little differently, we had to come up with a means to compare the prices around the world.  This involved looking at each provider's regions and find a way to map them, where possible.</p><p>When a cloud provider did not supply a region, we have either had to map it to geographically equivalent region (this was the approach in Europe where there are a lot of data centers) or simply excluding the cloud supplier from that particular comparison.</p><p>In the latter case, you will see the cloud provider marked as NONE in the matrix.</p></div> : documentToReactComponents(this.state.contentfulItems.description) }</div></div></div>
+                  <div>{ loading ? <div><p>Because every cloud provider looks at the world a little differently, Pricekite had to come up with a means to compare the prices around the world.  We reviewed each provider's regions and mapped them to a Pricekite region, where possible.</p><p>When a cloud provider did not supply a region, we have either mapped it to geographically equivalent region (this was the approach in Europe where there are a lot of data centers) or we excluded that supplier from that particular comparison.</p><p>In the latter case, you will see the cloud provider marked as NONE in the matrix.</p></div> : documentToReactComponents(this.state.contentfulItems.description) }</div></div></div>
                   <div className="clearIt"></div>
                   <div>
                     <Table striped bordered hover responsive="sm">
