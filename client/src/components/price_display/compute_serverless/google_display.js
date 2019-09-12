@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import './table_display.scss';
 import Accordion from  'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import './google_display.scss'
 
 //import { Wave } from 'react-animated-text';
 
@@ -17,7 +18,7 @@ export default class GoogleDisplay extends React.Component{
       {
         const googlePrices = this.props.googlePrices;
 
-        return <Accordion>
+        return <div clasName='accordionPad'><Accordion>
           <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <h2>More About Google</h2><span>(Click Here)</span>
@@ -96,7 +97,7 @@ export default class GoogleDisplay extends React.Component{
             <tr>
               <td>{googlePrices.provider}</td>
               <td>100 ms</td>
-              <td>${+(googlePrices.rate * 600 * 60 * 24 ).toFixed(2)}</td>
+              <td>${+(googlePrices.pricePerUnit * 600 * 60 * 24 ).toFixed(2)}</td>
               <td>'Price * 600 * 60 * 24'</td>
             </tr>
           </tbody>
@@ -107,7 +108,8 @@ export default class GoogleDisplay extends React.Component{
         </Card.Body>
   </Accordion.Collapse>
 </Card>
-</Accordion>;
+</Accordion>
+</div>;
       }
 
     }

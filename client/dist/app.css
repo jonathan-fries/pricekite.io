@@ -75,6 +75,9 @@ ul {
   width: 115px;
   min-width: 115px; }
 
+.accordionPad {
+  padding: 10px; }
+
 .buttonDiv {
   padding: 8px;
   float: left; }
