@@ -9,12 +9,12 @@ export default class About extends React.Component{
 
         var contentful = require('contentful');
 
-        var client = contentful.createClient({
+        this.client = contentful.createClient({
             space: 'qgqta6z9ueb1',
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        client.getEntry('6v03ToUq3gJ7f6h35X28TE')
+        this.client.getEntry('6v03ToUq3gJ7f6h35X28TE')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -33,6 +33,17 @@ export default class About extends React.Component{
             console.log(err.message)
           })
 
+      }
+
+      componentWillUnmount()
+      {
+        //this.client = null;
+      }
+
+      componentDidMount()
+      {
+        document.title = "About Pricekite.io";
+        //document.description = "Information about how Pricekite.io works and why we do what we do.";
       }
 
     render(){

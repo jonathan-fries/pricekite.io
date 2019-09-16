@@ -10,6 +10,7 @@ module.exports = {
     mode: 'development',
     entry: ['@babel/polyfill', './src/client.js'],
     output: {
+        path: __dirname + '/public/scripts',
         filename: 'index.js'
     },
     module: {
@@ -24,6 +25,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({filename: "app.css"})
+        new MiniCssExtractPlugin({filename: "../stylesheets/app.css"})
     ]
 };
