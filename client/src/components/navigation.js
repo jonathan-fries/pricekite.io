@@ -9,7 +9,7 @@ export default class Navigation extends React.Component {
 
 render() {
     return <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect='true'>
-    <Navbar.Brand href="/">
+    <Navbar.Brand href="/compute">
       <img
         src="/images/logo.png"
         className="d-inline-block align-top"
@@ -21,6 +21,12 @@ render() {
       <Nav id="pricekiteNavigation" className="mr-auto">
       <LinkContainer  to='/compute'>
         <Nav.Link>Compute</Nav.Link>
+      </LinkContainer>
+      <LinkContainer  to='/ipAddresses'>
+        <Nav.Link>IP Addresses</Nav.Link>
+      </LinkContainer>
+      <LinkContainer  to='/regions'>
+        <Nav.Link>Regions</Nav.Link>
       </LinkContainer>
        <LinkContainer  to='/about'>
          <Nav.Link>About</Nav.Link>

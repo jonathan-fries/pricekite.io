@@ -11,14 +11,16 @@ export default class AzureIpAddress extends React.Component{
 
         var ws = "https://api.pricekite.io/v1/azure-ip-address-prices";
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', ws);
+        this.xhr = null;
 
-        xhr.onload = () => {
-            if(xhr.status === 200){
-                console.log(xhr.responseText);
+        this.xhr = new XMLHttpRequest();
+        this.xhr.open('GET', ws);
+
+        this.xhr.onload = () => {
+            if(this.xhr.status === 200){
+                console.log(this.xhr.responseText);
                 var local_azurePriceItem = [];
-                local_azurePriceItem = JSON.parse(xhr.response);
+                local_azurePriceItem = JSON.parse(this.xhr.response);
                 local_azurePriceItem = JSON.parse(local_azurePriceItem);
                 this.setState({azurePriceItems:local_azurePriceItem});
                 this.setState({loading: false});
@@ -27,8 +29,13 @@ export default class AzureIpAddress extends React.Component{
                 console.log("Error calling web service.")
             }
         };
-        xhr.send();
+        this.xhr.send();
 
+    }
+
+    componentWillUnmount()
+    {
+      this.xhr.abort();
     }
 
   render(){

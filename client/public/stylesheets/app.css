@@ -1,35 +1,3 @@
-.headerColumn {
-  width: 30%; }
-
-.headerColumn2 {
-  width: 40%; }
-
-.Alive {
-  background-color: lightgreen; }
-
-.Dead {
-  background-color: red; }
-
-@media all and (max-width: 800px) {
-  .statusDiv {
-    float: left; } }
-
-@media all and (min-width: 800px) {
-  .statusDiv {
-    float: right; } }
-
-@media all and (max-width: 800px) {
-  .ipAddressText {
-    float: left; } }
-
-@media all and (min-width: 800px) {
-  .ipAddressText {
-    width: 70%;
-    float: left; } }
-
-.clearIt {
-  clear: both; }
-
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -59,6 +27,32 @@ body {
 
 ul {
   margin: 0; }
+
+.Alive {
+  background-color: lightgreen; }
+
+.Dead {
+  background-color: red; }
+
+@media all and (max-width: 800px) {
+  .statusDiv {
+    float: left; } }
+
+@media all and (min-width: 800px) {
+  .statusDiv {
+    float: right; } }
+
+@media all and (max-width: 800px) {
+  .ipAddressText {
+    float: left; } }
+
+@media all and (min-width: 800px) {
+  .ipAddressText {
+    width: 70%;
+    float: left; } }
+
+.clearIt {
+  clear: both; }
 
 .buttonFloat {
   float: right; }
@@ -91,6 +85,12 @@ ul {
 
 .clearIt {
   clear: both; }
+
+.headerColumn {
+  width: 30%; }
+
+.headerColumn2 {
+  width: 40%; }
 
 @media all and (max-width: 800px) {
   .statusDiv {

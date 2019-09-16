@@ -88,18 +88,11 @@ export default class StatusIndicator extends React.Component{
     var azureAlive = this.state.azure_alive;
 
     return <Table striped bordered hover responsive="sm">
-      <thead>
-        <tr>
-          <th className='statusHeaderColumn'>Google</th>
-          <th className='statusHeaderColumn'>AWS</th>
-          <th className='statusHeaderColumn'>Azure</th>
-        </tr>
-      </thead>
       <tbody>
         <tr>
-          <td className={gcpAlive} >{ gcpLoading ? <Wave text="......" effect="fadeOut"/> : <div>{gcpAlive}</div> } </td>
-          <td className={awsAlive} >{ awsLoading ? <Wave text="......" effect="fadeOut"/> : <div>{awsAlive}</div> } </td>
-          <td className={azureAlive} > { azureLoading ? <Wave text="......" effect="fadeOut"/> : <div>{azureAlive}</div> }</td>
+          <td className={gcpAlive} >{ gcpLoading ? <Wave text="GCP" effect="fadeOut"/> : <div>GCP</div> } </td>
+          <td className={awsAlive} >{ awsLoading ? <Wave text="AWS" effect="fadeOut"/> : <div>AWS</div> }</td>
+          <td className={azureAlive} > { azureLoading ? <Wave text="Azure" effect="fadeOut"/> : <div>Azure</div> }</td>
         </tr>
       </tbody>
     </Table>
