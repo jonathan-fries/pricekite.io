@@ -10,6 +10,7 @@ module.exports = {
     mode: 'development',
     entry: ['@babel/polyfill', './src/client.js'],
     output: {
+        path: __dirname + '/public',
         filename: 'index.js'
     },
     module: {
