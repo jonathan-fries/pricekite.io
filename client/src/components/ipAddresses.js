@@ -42,7 +42,7 @@ export default class Home extends React.Component{
 
       componentWillUnmount()
       {
-        this.client = null;
+        //this.client = null;
       }
 
       componentDidMount()

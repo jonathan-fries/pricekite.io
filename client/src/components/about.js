@@ -37,7 +37,7 @@ export default class About extends React.Component{
 
       componentWillUnmount()
       {
-        this.client = null;
+        //this.client = null;
       }
 
       componentDidMount()

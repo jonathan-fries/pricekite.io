@@ -39,7 +39,7 @@ export default class Regions extends React.Component{
 
       componentWillUnmount()
       {
-        this.client = null;
+        //this.client = null;
       }
 
       componentDidMount()

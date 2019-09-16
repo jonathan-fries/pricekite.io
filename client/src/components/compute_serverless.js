@@ -40,7 +40,7 @@ export default class ComputeServerless extends React.Component{
 
       componentWillUnmount()
       {
-        this.client = null;
+        //this.client = null;
       }
 
       componentDidMount()
