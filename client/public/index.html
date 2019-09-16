@@ -17,7 +17,7 @@ gtag('config', 'G-Y27NHSBMY1');
     <meta name="theme-color" content="#000000">
     <meta name="description" content="Pricekite.io compares the prices from AWS, Azure, and Google Cloud.  We currently have static IP address comparison and serverless compute comparison." >
     <meta name="keywords" content="Cross-cloud pricing AWS Azure Google GCP Amazon Microsoft " >
-    <link rel="stylesheet" type="text/css" href="app.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/app.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -44,18 +44,7 @@ gtag('config', 'G-Y27NHSBMY1');
       <nav class="navbar navbar-expand navbar-dark bg-dark fixed-bottom"><a href="/" class="navbar-brand"><a href="https://jonathanfries.net"><span>© 2019 by Jonathan Fries</span></a></a></nav>
     </div>
   </noscript>
-<script>
-  function responsiveMenu() {
-      var x = document.getElementById("topNavDiv");
-      if (x.className === "nav") {
-          x.className += " responsive";
-      } else {
-          x.className = "topNav";
-      }
-  }
-  </script>
     <div id="cloud-price-comparision-client"></div>
-    <script src="index.js" ></script>
-
+    <script src="scripts/index.js" ></script>
 </body>
 </html>
