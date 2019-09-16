@@ -14,6 +14,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
+    "webpack": "webpack",
     "package": "webpack&& deploy.bat"
   },
   "devDependencies": {
