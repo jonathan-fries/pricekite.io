@@ -18,7 +18,7 @@ export default class GoogleDisplay extends React.Component{
       {
         const googlePrices = this.props.googlePrices;
 
-        return <div clasName='accordionPad'><Accordion>
+        return <div className='accordionPad'><Accordion>
           <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             <h2>More About Google</h2><span>(Click Here)</span>

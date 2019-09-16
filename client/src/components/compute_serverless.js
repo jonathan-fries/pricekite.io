@@ -12,12 +12,12 @@ export default class ComputeServerless extends React.Component{
 
         var contentful = require('contentful');
 
-        var client = contentful.createClient({
+        this.client = contentful.createClient({
             space: 'qgqta6z9ueb1',
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        client.getEntry('1vsV40J7PtxvwjXMFwx8CV')
+        this.client.getEntry('1vsV40J7PtxvwjXMFwx8CV')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -38,7 +38,19 @@ export default class ComputeServerless extends React.Component{
 
       }
 
+      componentWillUnmount()
+      {
+        this.client = null;
+      }
+
+      componentDidMount()
+      {
+        document.title = "Serverless Compute Price Comparison";
+        //document.description = "This page compares the prices for serverless compute.  It compares AWS Lambda, Azure Functions, and Google Cloud Functions.";
+      }
+
     render(){
+
         return <div>
                   <div><div className="ipAddressText"><h2>{this.state.contentfulItems.title}</h2>
                   <div>{documentToReactComponents(this.state.contentfulItems.description)}</div></div>
