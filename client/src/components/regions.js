@@ -11,12 +11,12 @@ export default class Regions extends React.Component{
 
         var contentful = require('contentful');
 
-        var client = contentful.createClient({
+        this.client = contentful.createClient({
             space: 'qgqta6z9ueb1',
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        client.getEntry('27l3cuPfj2vbzyfyYlphF2')
+        this.client.getEntry('27l3cuPfj2vbzyfyYlphF2')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -35,6 +35,17 @@ export default class Regions extends React.Component{
             console.log(err.message)
           })
 
+      }
+
+      componentWillUnmount()
+      {
+        //this.client = null;
+      }
+
+      componentDidMount()
+      {
+        document.title = "Pricekite.io Region Mapping";
+        //document.description = "This page provides information about how Pricekite.io regions work and how we map the regions from the major cloud providers.  We currently compare regions from AWS, Microsoft Azure, and Google Cloud. ";
       }
 
     render(){

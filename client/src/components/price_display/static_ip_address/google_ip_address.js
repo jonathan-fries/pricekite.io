@@ -11,13 +11,13 @@ export default class GoogleIpAddress extends React.Component{
 
         var ws = "https://api.pricekite.io/v1/gcp-ip-address-prices";
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', ws);
-        xhr.onload = () => {
-            if(xhr.status === 200){
-                console.log(xhr.responseText);
+        this.xhr = new XMLHttpRequest();
+        this.xhr.open('GET', ws);
+        this.xhr.onload = () => {
+            if(this.xhr.status === 200){
+                //console.log(this.xhr.responseText);
                 var local_gcpPriceItem = [];
-                local_gcpPriceItem = JSON.parse(xhr.responseText);
+                local_gcpPriceItem = JSON.parse(this.xhr.responseText);
                 this.setState({gcpPriceItem:local_gcpPriceItem});
                 this.setState({loading: false});
             }
@@ -25,8 +25,13 @@ export default class GoogleIpAddress extends React.Component{
                 console.log("Error calling web service.")
             }
         };
-        xhr.send();
+        this.xhr.send();
 
+    }
+
+    componentWillUnmount()
+    {
+      this.xhr.abort();
     }
 
   render(){
