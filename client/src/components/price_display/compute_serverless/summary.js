@@ -63,6 +63,7 @@ export default class Summary extends React.Component{
         this.xhr_aws.send();
 
 
+        //var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-prices";
         var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-prices";
 
         this.xhr_azure = new XMLHttpRequest();
@@ -72,7 +73,8 @@ export default class Summary extends React.Component{
                 console.log(this.xhr_azure.responseText);
                 var local_azure_prices = {};
                 local_azure_prices = JSON.parse(this.xhr_azure.responseText);
-                local_azure_prices = JSON.parse(local_azure_prices);
+                local_azure_prices = JSON.parse(local_azure_prices.body);
+                local_azure_prices = local_azure_prices.Items;
 
                 var local_price = this.findRegionRecord(1000, local_azure_prices);
 
