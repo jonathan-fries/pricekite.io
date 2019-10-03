@@ -17,8 +17,7 @@ export default class Summary extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.findRegionRecord = this.findRegionRecord.bind(this);
 
-        //var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-prices";
-        var ws = "https://us-central1-pricekite.cloudfunctions.net/gcp-gcp-compute-serverless-prices";
+        var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-prices";
 
         this.xhr = new XMLHttpRequest();
         this.xhr.open('GET', ws);
