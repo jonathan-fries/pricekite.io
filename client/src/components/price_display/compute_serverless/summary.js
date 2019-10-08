@@ -26,7 +26,11 @@ export default class Summary extends React.Component{
                 console.log(this.xhr.responseText);
                 var local_gcp_prices = {};
                 local_gcp_prices = JSON.parse(this.xhr.responseText);
+
+                var local_price = this.findRegionRecord(1000, local_gcp_prices);
+
                 this.setState({gcp_prices:local_gcp_prices});
+                this.setState({gcp_current_price:local_price});
                 this.setState({gcp_loading: false});
             }
             else{
@@ -110,6 +114,9 @@ export default class Summary extends React.Component{
       var azure_record = this.findRegionRecord(value, this.state.azure_prices);
       this.setState({azure_current_price:azure_record});
 
+      var gcp_record = this.findRegionRecord(value, this.state.gcp_prices);
+      this.setState({gcp_current_price:gcp_record});
+
     }
 
 
@@ -119,22 +126,21 @@ export default class Summary extends React.Component{
     var awsLoading = this.state.aws_loading;
     var azureLoading = this.state.azure_loading;
 
-    const localGcpPrices = this.state.gcp_prices;
+    const localGcpPrices = this.state.gcp_current_price;
     const localAwsPrices = this.state.aws_current_price;
     const localAzurePrices = this.state.azure_current_price;
 
     return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
     <div><h2>Comparison</h2>
-    <p>Azure and AWS are easy to compare.  AWS' pricing is more consistent, but it is differentiated by a unique sku per region.</p>
     <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
-    <p>Because GCP prices on the basis of invocation, we need to include a notion of how long the function will run to determine the price.  Click on the 'More about Google' Accordion below for more on how Google works.</p></div>
+    <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
+    <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
         <ServerlessButton  OnChangeDone={this.handleChange}/>
         <div>
           <TableDisplay azurePrices={localAzurePrices} awsPrices={localAwsPrices} gcpPrices={localGcpPrices} />
-          <div><p>*What would your function cost if it ran all day?  This tends to provide a more human readable $ amount, as well as contextual scale.</p></div>
+          <div></div>
         </div>
         </div>}
-        { gcpLoading ? <Wave text="Thinking..." effect="fadeOut" /> : <GoogleDisplay googlePrices={localGcpPrices} />}
         </div>;
   }
 
@@ -150,7 +156,15 @@ export default class Summary extends React.Component{
         if(records[i].pricekiteRegionId === regionId)
         {
           regionRecord = records[i];
+          break;
         }
+      }
+
+      if(regionRecord.provider === 'Not Found')
+      {
+        regionRecord.provider = records[0].provider;
+        regionRecord.pricekiteRegion = "NA";
+        regionRecord.pricePerUnit = 0.00;
       }
 
       return regionRecord;
