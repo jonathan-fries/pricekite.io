@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wave } from 'react-animated-text';
-import ServerlessButton from './button.js'
+import ServerlessButton from '../shared/button.js'
 import TableDisplay from './table_display.js'
 import GoogleDisplay from './google_display.js'
 import './summary.scss';
@@ -111,7 +111,7 @@ export default class Summary extends React.Component{
       var aws_record = this.findRegionRecord(value, this.state.aws_prices);
       this.setState({aws_current_price:aws_record});
 
-      var azure_record = this.findRegionRecord(value, this.state.azure_prices);
+      var azure_record = this.findRegionRecord(value, this.filterAzureRecords(this.state.azure_prices));
       this.setState({azure_current_price:azure_record});
 
       var gcp_record = this.findRegionRecord(value, this.state.gcp_prices);
@@ -168,6 +168,23 @@ export default class Summary extends React.Component{
       }
 
       return regionRecord;
+  }
+
+  filterAzureRecords(records)
+  {
+    var i = 0;
+    var filteredRecords = [];
+
+    for(i; i < records.length; i++)
+    {
+      if(records[i].name === "Execution Time")
+      {
+        filteredRecords.push(records[i]);
+      }
+    }
+
+    return filteredRecords;
+
   }
 
 }

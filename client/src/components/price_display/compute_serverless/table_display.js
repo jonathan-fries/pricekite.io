@@ -32,7 +32,7 @@ export default class TableDisplay extends React.Component{
           <tbody>
             <tr>
               <td>{azurePrices.provider}</td>
-              <td>${+(azurePrices.daily).toFixed(2)}</td>
+              <td>${+(azurePrices.pricePerUnit * 60 * 60 * 24).toFixed(2)}</td>
               <td>{azurePrices.pricekiteRegion}</td>
               <td>{azurePrices.unit}</td>
               <td>${azurePrices.pricePerUnit}</td>

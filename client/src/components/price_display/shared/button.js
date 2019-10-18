@@ -27,6 +27,7 @@ export default class ServerlessButton extends React.Component{
                   <Dropdown.Item value="1001">USA West 1</Dropdown.Item>
                   <Dropdown.Item value="1003">USA West 2</Dropdown.Item>
                   <Dropdown.Item value="1004">USA Central 1</Dropdown.Item>
+                  <Dropdown.Item value="2000">Hong Kong 1</Dropdown.Item>
                   <Dropdown.Item value="2001">Mumbai 1</Dropdown.Item>
                   <Dropdown.Item value="3002">London 1</Dropdown.Item>
           </DropdownButton>;
