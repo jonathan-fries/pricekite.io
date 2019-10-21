@@ -12,7 +12,7 @@ export default class ServerlessMain extends React.Component{
 
         this.state = { gcp_loading: true, gcp_current_price: {}, gcp_prices: [] , aws_loading:true, aws_current_price:{}, aws_prices: [], azure_loading: true, azure_current_price:{}, azure_prices: [] };
 
-        //this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         //this.findRegionRecord = this.findRegionRecord.bind(this);
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
@@ -99,6 +99,22 @@ export default class ServerlessMain extends React.Component{
       this.xhr.abort();
       this.xhr_aws.abort();
       this.xhr_azure.abort();
+    }
+
+    handleChange(key, evt){
+      console.log(evt);
+
+      var value = evt.currentTarget.attributes[0].value;
+
+      var aws_record = findRegionRecord(value, this.state.aws_prices);
+      this.setState({aws_current_price:aws_record});
+
+      var azure_record = findRegionRecord(value, this.state.azure_prices);
+      this.setState({azure_current_price:azure_record});
+
+      var gcp_record = findRegionRecord(value, this.state.gcp_prices);
+      this.setState({gcp_current_price:gcp_record});
+
     }
 
     render(){
