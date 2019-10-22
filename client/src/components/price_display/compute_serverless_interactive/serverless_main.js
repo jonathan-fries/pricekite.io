@@ -1,7 +1,11 @@
 import React from 'react';
 import { Wave } from 'react-animated-text';
-import ServerlessButton from '../shared/button.js'
+import ServerlessButton from '../shared/button.js';
+import MemoryButton from '../shared/memory_button.js';
+import RunTimeButton from '../shared/run_time_button.js';
+import NumInvocationButton from '../shared/num_invocation_button.js';
 import {findRegionRecord} from '../shared/find_region_record.js'
+import './serverless_main.scss';
 
 //import { Wave } from 'react-animated-text';
 
@@ -132,7 +136,18 @@ export default class ServerlessMain extends React.Component{
       <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
       <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
       <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
-          <ServerlessButton  OnChangeDone={this.handleChange}/>
+      <div className='inputControls'>
+        <input
+          className='roundedCorner inputPadding'
+          id="numFunctions"
+          type="text"
+          placeholder="# of Functions"
+          />
+        <NumInvocationButton />
+        <MemoryButton/>
+        <RunTimeButton />
+        <ServerlessButton  OnChangeDone={this.handleChange}/>
+      </div>
           <div>
 
             <div></div>
