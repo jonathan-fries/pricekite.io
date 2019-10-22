@@ -21,9 +21,8 @@ export default class ServerlessButton extends React.Component{
       }
 
     render(){
-        return <DropdownButton id="dropdown-basic-button" title="Select Region" onSelect={this.handleSelect} >
+        return <DropdownButton id="dropdown-basic-button" title="Select Region" className="buttonPadding"  onSelect={this.handleSelect} >
                   <Dropdown.Item value="1000">USA East 1</Dropdown.Item>
-                  <Dropdown.Item value="1002">USA East 2</Dropdown.Item>
                   <Dropdown.Item value="1001">USA West 1</Dropdown.Item>
                   <Dropdown.Item value="1003">USA West 2</Dropdown.Item>
                   <Dropdown.Item value="1004">USA Central 1</Dropdown.Item>

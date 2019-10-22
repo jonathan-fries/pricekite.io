@@ -1,7 +1,14 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { Wave } from 'react-animated-text';
-import ServerlessButton from '../shared/button.js'
+import ServerlessButton from '../shared/button.js';
+import MemoryButton from '../shared/memory_button.js';
+import RunTimeButton from '../shared/run_time_button.js';
+import NumInvocationButton from '../shared/num_invocation_button.js';
 import {findRegionRecord} from '../shared/find_region_record.js'
+import './serverless_main.scss';
 
 //import { Wave } from 'react-animated-text';
 
@@ -12,7 +19,7 @@ export default class ServerlessMain extends React.Component{
 
         this.state = { gcp_loading: true, gcp_current_price: {}, gcp_prices: [] , aws_loading:true, aws_current_price:{}, aws_prices: [], azure_loading: true, azure_current_price:{}, azure_prices: [] };
 
-        //this.handleChange = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         //this.findRegionRecord = this.findRegionRecord.bind(this);
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
@@ -101,6 +108,22 @@ export default class ServerlessMain extends React.Component{
       this.xhr_azure.abort();
     }
 
+    handleChange(key, evt){
+      console.log(evt);
+
+      var value = evt.currentTarget.attributes[0].value;
+
+      var aws_record = findRegionRecord(value, this.state.aws_prices);
+      this.setState({aws_current_price:aws_record});
+
+      var azure_record = findRegionRecord(value, this.state.azure_prices);
+      this.setState({azure_current_price:azure_record});
+
+      var gcp_record = findRegionRecord(value, this.state.gcp_prices);
+      this.setState({gcp_current_price:gcp_record});
+
+    }
+
     render(){
 
       var gcpLoading = this.state.gcp_loading;
@@ -116,13 +139,30 @@ export default class ServerlessMain extends React.Component{
       <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
       <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
       <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
-          <ServerlessButton  OnChangeDone={this.handleChange}/>
-          <div>
-
-            <div></div>
-          </div>
-          </div>}
-          </div>;
+      <Container className='containerFormat'>
+        <Row>
+          <Col xs={12} md={6}>
+          <input
+            className='roundedCorner inputPadding'
+            id="numFunctions"
+            type="text"
+            placeholder="# of Functions"
+            />
+          </Col>
+          <Col xs={12} md={6} >
+            <NumInvocationButton />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={6}><MemoryButton/></Col>
+          <Col xs={12} md={6}><RunTimeButton /></Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={6}><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
+        </Row>
+      </Container>
+        </div>}
+    </div>;
     }
 
 }
