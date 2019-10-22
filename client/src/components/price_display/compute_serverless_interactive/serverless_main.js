@@ -139,9 +139,9 @@ export default class ServerlessMain extends React.Component{
       <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
       <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
       <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
-      <Container>
+      <Container className='containerFormat'>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
           <input
             className='roundedCorner inputPadding'
             id="numFunctions"
@@ -149,24 +149,20 @@ export default class ServerlessMain extends React.Component{
             placeholder="# of Functions"
             />
           </Col>
-          <Col>
+          <Col xs={12} md={6} >
             <NumInvocationButton />
           </Col>
         </Row>
         <Row>
-          <Col><MemoryButton/></Col>
-          <Col><RunTimeButton /></Col>
+          <Col xs={12} md={6}><MemoryButton/></Col>
+          <Col xs={12} md={6}><RunTimeButton /></Col>
         </Row>
         <Row>
-          <Col><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
+          <Col xs={12} md={6}><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
         </Row>
       </Container>
-          <div>
-
-            <div></div>
-          </div>
-          </div>}
-          </div>;
+        </div>}
+    </div>;
     }
 
 }
