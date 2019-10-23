@@ -192,7 +192,6 @@ export default class ServerlessMain extends React.Component{
       <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
       <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
       <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
-      <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
       <Container className='containerFormat'>
         <Row>
           <Col xs={12} md={6}>
@@ -216,6 +215,7 @@ export default class ServerlessMain extends React.Component{
           <Col xs={12} md={6}><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
         </Row>
       </Container>
+      <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
         </div>}
     </div>;
     }

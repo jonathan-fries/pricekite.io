@@ -1,4 +1,7 @@
 import React from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default class DisplayState extends React.Component{
 
@@ -13,13 +16,17 @@ export default class DisplayState extends React.Component{
         const functionMemoryAmount = this.props.functionMemoryAmount;
         const functionInvocations = this.props.functionInvocations;
 
-        return <div>
-                <span>Region Selected:</span><span><b>{regionSelected}  </b></span>
-                <span>Number of Functions:</span><span><b>{numberOfFunctions}  </b></span>
-                <span>Avg. Run Time:</span><span><b>{functionAverageTime}  </b></span>
-                <span>Memory Amount:</span><span><b>{functionMemoryAmount}  </b></span>
-                <span>Invocations:</span><span><b>{functionInvocations}  </b></span>
-               </div>;
+        return <Container className="containerFormat">
+                <Row>
+                  <Col xs={12} md={4}><span>Region Selected: <b>{regionSelected}</b></span></Col>
+                  <Col xs={12} md={4}><span>Number of Functions: <b>{numberOfFunctions}</b></span></Col>
+                  <Col xs={12} md={4}><span>Avg. Run Time: <b>{functionAverageTime} ms</b></span></Col>
+                </Row>
+                <Row>
+                  <Col xs={12} md={4}><span>Memory Amount: <b>{functionMemoryAmount} MB</b></span></Col>
+                  <Col xs={12} md={4}><span>Invocations: <b>{functionInvocations}/function/month</b></span></Col>
+                </Row>
+               </Container>;
       }
 
 }

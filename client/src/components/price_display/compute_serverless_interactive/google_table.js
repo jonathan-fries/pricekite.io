@@ -9,7 +9,15 @@ export default class GoogleTable extends React.Component{
       }
 
       render(){
-        return <div></div>;
+        const regionSelected = this.props.regionSelected;
+        const numberOfFunctions = this.props.functionNumber;
+        const functionAverageTime = this.props.functionAverageTime;
+        const functionMemoryAmount = this.props.functionMemoryAmount;
+        const functionInvocations = this.props.functionInvocations;
+
+        return <div >
+
+        </div>;
       }
 
 }
