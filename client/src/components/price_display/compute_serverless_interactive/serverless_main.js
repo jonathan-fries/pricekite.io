@@ -7,7 +7,8 @@ import ServerlessButton from '../shared/button.js';
 import MemoryButton from '../shared/memory_button.js';
 import RunTimeButton from '../shared/run_time_button.js';
 import NumInvocationButton from '../shared/num_invocation_button.js';
-import {findRegionRecord} from '../shared/find_region_record.js'
+import {findRegionRecord} from '../shared/find_region_record.js';
+import DisplayState from './display_state.js';
 import './serverless_main.scss';
 
 //import { Wave } from 'react-animated-text';
@@ -17,7 +18,21 @@ export default class ServerlessMain extends React.Component{
   constructor(props){
         super(props);
 
-        this.state = { gcp_loading: true, gcp_current_price: {}, gcp_prices: [] , aws_loading:true, aws_current_price:{}, aws_prices: [], azure_loading: true, azure_current_price:{}, azure_prices: [] };
+        this.state = { gcp_loading: true,
+          gcp_current_price: {},
+          gcp_prices: [] ,
+          aws_loading:true,
+          aws_current_price:{},
+          aws_prices: [],
+          azure_loading: true,
+          azure_current_price:{},
+          azure_prices: [],
+          function_memory: 128,
+          function_invocations: 0,
+          function_average_time: 0,
+          function_number: 0,
+          function_region_selected: 1000
+          };
 
         this.handleChange = this.handleChange.bind(this);
         //this.findRegionRecord = this.findRegionRecord.bind(this);
@@ -40,7 +55,7 @@ export default class ServerlessMain extends React.Component{
             }
             else{
                 console.log("Error calling web service.");
-                this.setState({gcp_alive:'Dead'});
+                //this.setState({gcp_alive:'Dead'});
                 this.setState({gcp_loading: false});
             }
         };
@@ -113,6 +128,8 @@ export default class ServerlessMain extends React.Component{
 
       var value = evt.currentTarget.attributes[0].value;
 
+      this.setState({function_region_selected:value});
+
       var aws_record = findRegionRecord(value, this.state.aws_prices);
       this.setState({aws_current_price:aws_record});
 
@@ -134,11 +151,14 @@ export default class ServerlessMain extends React.Component{
       const localAwsPrices = this.state.aws_current_price;
       const localAzurePrices = this.state.azure_current_price;
 
+      const regionSelected = this.state.function_region_selected;
+
       return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
       <div><h2>Comparison</h2>
       <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
       <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
       <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
+      <DisplayState regionSelected={regionSelected}></DisplayState>
       <Container className='containerFormat'>
         <Row>
           <Col xs={12} md={6}>
