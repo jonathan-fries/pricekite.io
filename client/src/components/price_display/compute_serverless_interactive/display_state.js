@@ -24,7 +24,7 @@ export default class DisplayState extends React.Component{
                 </Row>
                 <Row>
                   <Col xs={12} md={4}><span>Memory Amount: <b>{functionMemoryAmount} MB</b></span></Col>
-                  <Col xs={12} md={4}><span>Invocations: <b>{functionInvocations}/function/month</b></span></Col>
+                  <Col xs={12} md={4}><span>Invocations: <b>{functionInvocations.toLocaleString('en')}/function/month</b></span></Col>
                 </Row>
                </Container>;
       }
