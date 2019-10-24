@@ -7,6 +7,11 @@ export default class DisplayState extends React.Component{
 
   constructor(props){
         super(props);
+
+        const regionList = require('../shared/pricekite_regions.js');
+        this.state = { region_list : regionList };
+
+
       }
 
       render(){
@@ -16,9 +21,11 @@ export default class DisplayState extends React.Component{
         const functionMemoryAmount = this.props.functionMemoryAmount;
         const functionInvocations = this.props.functionInvocations;
 
+        const regionSelectedName = this.state.region_list[regionSelected].regionName;
+
         return <Container className="containerFormat">
                 <Row>
-                  <Col xs={12} md={4}><span>Region Selected: <b>{regionSelected}</b></span></Col>
+                  <Col xs={12} md={4}><span>Region Selected: <b>{regionSelectedName}</b></span></Col>
                   <Col xs={12} md={4}><span>Number of Functions: <b>{numberOfFunctions}</b></span></Col>
                   <Col xs={12} md={4}><span>Avg. Run Time: <b>{functionAverageTime} ms</b></span></Col>
                 </Row>

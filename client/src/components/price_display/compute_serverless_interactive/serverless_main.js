@@ -20,6 +20,8 @@ export default class ServerlessMain extends React.Component{
   constructor(props){
         super(props);
 
+        const cpuAssignments = require('../shared/google_memory_cpu_assignments.js');
+
         this.state = { gcp_loading: true,
           gcp_current_price: {},
           gcp_prices: [] ,
@@ -33,7 +35,8 @@ export default class ServerlessMain extends React.Component{
           function_invocations: 100000,
           function_average_time: 200,
           function_number: 1,
-          function_region_selected: 1000
+          function_region_selected: 1000,
+          gcp_cpu_assignments : cpuAssignments
           };
 
         this.handleChange = this.handleChange.bind(this);
@@ -41,6 +44,9 @@ export default class ServerlessMain extends React.Component{
         this.handleRunTimeChange = this.handleRunTimeChange.bind(this);
         this.handleInvocationsChange = this.handleInvocationsChange.bind(this);
         this.handleMemoryChange = this.handleMemoryChange.bind(this);
+        this.getInvocationRecord = this.getInvocationRecord.bind(this);
+        this.getCPURecord = this.getCPURecord.bind(this);
+        this.getMemoryRecord = this.getMemoryRecord.bind(this);
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
 
@@ -189,6 +195,14 @@ export default class ServerlessMain extends React.Component{
       const functionInvocations = this.state.function_invocations;
       const functionMemoryAmount = this.state.function_memory;
 
+      const googleInvocations = this.getInvocationRecord(localGcpPrices, functionNumber, functionInvocations, 2000000);
+      const googleMemory = this.getMemoryRecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 400000);
+      const googleCpu = this.getCPURecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 200000);
+
+      const gcpTotalAmount = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
+      const awsTotalAmount = 14;
+      const azureTotalAmount = 15.50;
+
       return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
       <div>
         <h2>Comparison</h2>
@@ -222,14 +236,83 @@ export default class ServerlessMain extends React.Component{
           </Container>
           </Col>
           <Col xs={12} md={6}>
-            <TotalCostComparison/>
+            <TotalCostComparison gcpTotalCost={gcpTotalAmount} awsTotalCost={awsTotalAmount} azureTotalCost={azureTotalAmount} />
           </Col>
         </Row>
       </Container>
       <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
-      <GoogleTable regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount} googleData={localGcpPrices}></GoogleTable>
+      <GoogleTable googleCpuRecord={googleCpu} googleMemoryRecord={googleMemory} googleInvocationRecord={googleInvocations} totalMonthly={gcpTotalAmount}></GoogleTable>
         </div>}
     </div>;
+    }
+
+    getInvocationRecord(googleData, numberOfFunctions, functionInvocations, invocationDiscount){
+      var i = 0;
+      var invocationRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
+      for(i; i< googleData.length; i++)
+      {
+        if(googleData[i].name == "Invocations")
+        {
+          invocationRecord = googleData[i];
+        }
+      }
+
+      if(invocationRecord.name != "N/A")
+      {
+        invocationRecord.unitsConsumed = numberOfFunctions * functionInvocations;
+        invocationRecord.unitsCharged = invocationRecord.unitsConsumed - invocationDiscount;
+        if(invocationRecord.unitsCharged < 0){invocationRecord.unitsCharged = 0;}
+        invocationRecord.cost = invocationRecord.unitsCharged * invocationRecord.pricePerUnit;
+      }
+
+      return invocationRecord;
+    }
+
+    getCPURecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, cpuDiscount){
+      var i = 0;
+      var cpuRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
+      for(i; i< googleData.length; i++)
+      {
+        if(googleData[i].name == "CPU Time")
+        {
+          cpuRecord = googleData[i];
+        }
+      }
+
+      if(cpuRecord.name != "N/A")
+      {
+        var cpuFraction = (this.state.gcp_cpu_assignments[functionMemoryAmount].cpu)/1000;
+
+        cpuRecord.unitsConsumed = (cpuFraction * ((functionInvocations * functionAverageTime)/1000)) * numberOfFunctions;
+        cpuRecord.unitsCharged = cpuRecord.unitsConsumed - cpuDiscount;
+        if(cpuRecord.unitsCharged < 0){cpuRecord.unitsCharged = 0};
+        cpuRecord.cost = cpuRecord.unitsCharged * cpuRecord.pricePerUnit;
+      }
+
+      return cpuRecord;
+    }
+
+    getMemoryRecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, memoryDiscount){
+      var i = 0;
+      var memoryRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
+      for(i; i< googleData.length; i++)
+      {
+        if(googleData[i].name == "Memory Time")
+        {
+          memoryRecord = googleData[i];
+        }
+      }
+
+      if(memoryRecord.name != "N/A")
+      {
+        var memoryFraction = functionMemoryAmount/1024;
+        memoryRecord.unitsConsumed = (memoryFraction * ((functionInvocations * functionAverageTime)/1000)) * numberOfFunctions;
+        memoryRecord.unitsCharged = memoryRecord.unitsConsumed - memoryDiscount;
+        if(memoryRecord.unitsCharged < 0){memoryRecord.unitsCharged = 0};
+        memoryRecord.cost = memoryRecord.unitsCharged * memoryRecord.pricePerUnit;
+      }
+
+      return memoryRecord;
     }
 
 }

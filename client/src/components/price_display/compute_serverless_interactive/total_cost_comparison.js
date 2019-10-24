@@ -8,19 +8,26 @@ export default class TotalCostComparison extends React.Component{
       }
 
       render(){
+
+        const gcpTotalCost = this.props.gcpTotalCost;
+        const awsTotalCost = this.props.awsTotalCost;
+        const azureTotalCost = this.props.azureTotalCost;
+
         return <Table striped bordered hover responsive="sm">
-          <tr>
-            <td>GCP</td>
-            <td>$14.00</td>
-          </tr>
-          <tr>
-            <td>AWS</td>
-            <td>$14.00</td>
-          </tr>
-          <tr>
-            <td>Azr</td>
-            <td>$14.00</td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>GCP</td>
+              <td>${gcpTotalCost.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td>AWS</td>
+              <td>{awsTotalCost}</td>
+            </tr>
+            <tr>
+              <td>Azr</td>
+              <td>{azureTotalCost}</td>
+            </tr>
+          </tbody>
         </Table>;
       }
 
