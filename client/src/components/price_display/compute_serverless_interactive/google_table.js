@@ -29,6 +29,8 @@ export default class GoogleTable extends React.Component{
         const googleMemory = this.getMemoryRecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, 400000);
         const googleCpu = this.getCPURecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, 200000);
 
+        const totalMonthly = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
+
         return <div >
         <h2>Google</h2>
         <Table striped bordered hover responsive="sm">
@@ -66,6 +68,14 @@ export default class GoogleTable extends React.Component{
               <td>{googleCpu.name != "N/A" ? googleCpu.unitsConsumed.toLocaleString('en') : "--"}</td>
               <td>{googleCpu.name != "N/A" ? googleCpu.unitsCharged.toLocaleString('en') : "--"}</td>
               <td>${googleCpu.name != "N/A" ? googleCpu.cost.toFixed(2) : "--"}</td>
+            </tr>
+            <tr>
+              <td><b>Total</b></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>${totalMonthly.toFixed(2)}</td>
             </tr>
           </tbody>
         </Table>

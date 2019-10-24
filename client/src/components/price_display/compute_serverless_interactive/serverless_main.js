@@ -11,6 +11,7 @@ import {findRegionRecords} from '../shared/find_region_record.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
 import GoogleTable from './google_table.js';
+import TotalCostComparison from './total_cost_comparison.js';
 
 //import { Wave } from 'react-animated-text';
 
@@ -189,31 +190,40 @@ export default class ServerlessMain extends React.Component{
       const functionMemoryAmount = this.state.function_memory;
 
       return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
-      <div><h2>Comparison</h2>
-      <p>You can change the region by clicking on the <b>Select Region</b> button.</p>
-      <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
-      <p>The Daily number is the $ amount you would be charged if the function ran continuously all day.</p></div>
+      <div>
+        <h2>Comparison</h2>
+        <p>If a provider shows NA for a region, that means it does not support serverless functions in that area.</p>
+      </div>
       <Container className='containerFormat'>
         <Row>
           <Col xs={12} md={6}>
-          <input
-            className='roundedCorner inputPadding'
-            id="numFunctions"
-            type="text"
-            placeholder="# of Functions"
-            onBlur={this.handleNumFunctionChange}
-            />
+          <Container className='containerFormat'>
+            <Row>
+              <Col xs={12} md={6}>
+              <input
+                className='roundedCorner inputPadding'
+                id="numFunctions"
+                type="text"
+                placeholder="# of Functions"
+                onBlur={this.handleNumFunctionChange}
+                />
+              </Col>
+              <Col xs={12} md={6} >
+                <NumInvocationButton OnChangeDone={this.handleInvocationsChange} />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}><MemoryButton OnChangeDone={this.handleMemoryChange}/></Col>
+              <Col xs={12} md={6}><RunTimeButton OnChangeDone={this.handleRunTimeChange} /></Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={6}><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
+            </Row>
+          </Container>
           </Col>
-          <Col xs={12} md={6} >
-            <NumInvocationButton OnChangeDone={this.handleInvocationsChange} />
+          <Col xs={12} md={6}>
+            <TotalCostComparison/>
           </Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={6}><MemoryButton OnChangeDone={this.handleMemoryChange}/></Col>
-          <Col xs={12} md={6}><RunTimeButton OnChangeDone={this.handleRunTimeChange} /></Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={6}><ServerlessButton  OnChangeDone={this.handleChange}/></Col>
         </Row>
       </Container>
       <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
