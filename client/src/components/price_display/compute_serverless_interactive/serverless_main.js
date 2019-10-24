@@ -7,9 +7,10 @@ import ServerlessButton from '../shared/button.js';
 import MemoryButton from '../shared/memory_button.js';
 import RunTimeButton from '../shared/run_time_button.js';
 import NumInvocationButton from '../shared/num_invocation_button.js';
-import {findRegionRecord} from '../shared/find_region_record.js';
+import {findRegionRecords} from '../shared/find_region_record.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
+import GoogleTable from './google_table.js';
 
 //import { Wave } from 'react-animated-text';
 
@@ -28,9 +29,9 @@ export default class ServerlessMain extends React.Component{
           azure_current_price:{},
           azure_prices: [],
           function_memory: 128,
-          function_invocations: 0,
-          function_average_time: 0,
-          function_number: 0,
+          function_invocations: 100000,
+          function_average_time: 200,
+          function_number: 1,
           function_region_selected: 1000
           };
 
@@ -50,7 +51,7 @@ export default class ServerlessMain extends React.Component{
                 var local_gcp_prices = {};
                 local_gcp_prices = JSON.parse(this.xhr.responseText);
 
-                var local_price = findRegionRecord(1000, local_gcp_prices);
+                var local_price = findRegionRecords(1000, local_gcp_prices);
 
                 this.setState({gcp_prices:local_gcp_prices});
                 this.setState({gcp_current_price:local_price});
@@ -75,7 +76,7 @@ export default class ServerlessMain extends React.Component{
                 local_aws_prices = JSON.parse(this.xhr_aws.responseText);
                 local_aws_prices = JSON.parse(local_aws_prices.body);
 
-                var local_price = findRegionRecord(1000, local_aws_prices);
+                var local_price = findRegionRecords(1000, local_aws_prices);
 
                 this.setState({aws_current_price:local_price});
                 this.setState({aws_prices: local_aws_prices});
@@ -103,7 +104,7 @@ export default class ServerlessMain extends React.Component{
                 local_azure_prices = JSON.parse(local_azure_prices.body);
                 local_azure_prices = local_azure_prices.Items;
 
-                var local_price = findRegionRecord(1000, local_azure_prices);
+                var local_price = findRegionRecords(1000, local_azure_prices);
 
                 this.setState({azure_prices: local_azure_prices});
                 this.setState({azure_current_price:local_price});
@@ -133,13 +134,13 @@ export default class ServerlessMain extends React.Component{
 
       this.setState({function_region_selected:value});
 
-      var aws_record = findRegionRecord(value, this.state.aws_prices);
+      var aws_record = findRegionRecords(value, this.state.aws_prices);
       this.setState({aws_current_price:aws_record});
 
-      var azure_record = findRegionRecord(value, this.state.azure_prices);
+      var azure_record = findRegionRecords(value, this.state.azure_prices);
       this.setState({azure_current_price:azure_record});
 
-      var gcp_record = findRegionRecord(value, this.state.gcp_prices);
+      var gcp_record = findRegionRecords(value, this.state.gcp_prices);
       this.setState({gcp_current_price:gcp_record});
 
     }
@@ -216,6 +217,7 @@ export default class ServerlessMain extends React.Component{
         </Row>
       </Container>
       <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
+      <GoogleTable regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount} googleData={localGcpPrices}></GoogleTable>
         </div>}
     </div>;
     }
