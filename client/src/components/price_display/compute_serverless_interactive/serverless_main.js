@@ -8,6 +8,8 @@ import MemoryButton from '../shared/memory_button.js';
 import RunTimeButton from '../shared/run_time_button.js';
 import NumInvocationButton from '../shared/num_invocation_button.js';
 import {findRegionRecords} from '../shared/find_region_record.js';
+import {findRecordType} from '../shared/find_record_type.js';
+import {webServiceRequest} from '../shared/web_service_request.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
 import GoogleTable from './google_table.js';
@@ -19,6 +21,8 @@ export default class ServerlessMain extends React.Component{
 
   constructor(props){
         super(props);
+
+        const cpuAssignments = require('../shared/google_memory_cpu_assignments.js');
 
         this.state = { gcp_loading: true,
           gcp_current_price: {},
@@ -33,7 +37,8 @@ export default class ServerlessMain extends React.Component{
           function_invocations: 100000,
           function_average_time: 200,
           function_number: 1,
-          function_region_selected: 1000
+          function_region_selected: 1000,
+          gcp_cpu_assignments : cpuAssignments
           };
 
         this.handleChange = this.handleChange.bind(this);
@@ -42,82 +47,54 @@ export default class ServerlessMain extends React.Component{
         this.handleInvocationsChange = this.handleInvocationsChange.bind(this);
         this.handleMemoryChange = this.handleMemoryChange.bind(this);
 
+        this.gcpComputedValues = this.gcpComputedValues.bind(this);
+
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
 
-        this.xhr = new XMLHttpRequest();
-        this.xhr.open('GET', ws);
-        this.xhr.onload = () => {
-            if(this.xhr.status === 200){
-                console.log(this.xhr.responseText);
-                var local_gcp_prices = {};
-                local_gcp_prices = JSON.parse(this.xhr.responseText);
+        this.xhr = webServiceRequest(ws, false, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({gcp_prices:prices});
+            this.setState({gcp_current_price:price});
+            this.setState({gcp_loading: false});
+          }
+          else
+          {
+            this.setState({gcp_loading: false});
+          }
+        });
 
-                var local_price = findRegionRecords(1000, local_gcp_prices);
-
-                this.setState({gcp_prices:local_gcp_prices});
-                this.setState({gcp_current_price:local_price});
-                this.setState({gcp_loading: false});
-            }
-            else{
-                console.log("Error calling web service.");
-                //this.setState({gcp_alive:'Dead'});
-                this.setState({gcp_loading: false});
-            }
-        };
-        this.xhr.send();
 
         var ws_aws = "https://api.pricekite.io/v1/aws-compute-serverless-skus";
 
-        this.xhr_aws = new XMLHttpRequest();
-        this.xhr_aws.open('GET', ws_aws);
-        this.xhr_aws.onload = () => {
-            if(this.xhr_aws.status === 200){
-                console.log(this.xhr_aws.responseText);
-                var local_aws_prices = {};
-                local_aws_prices = JSON.parse(this.xhr_aws.responseText);
-                local_aws_prices = JSON.parse(local_aws_prices.body);
-
-                var local_price = findRegionRecords(1000, local_aws_prices);
-
-                this.setState({aws_current_price:local_price});
-                this.setState({aws_prices: local_aws_prices});
-                this.setState({aws_loading: false});
-            }
-            else{
-                console.log("Error calling AWS heartbeat service.")
-                //this.setState({aws_alive:'Dead'});
-                this.setState({aws_loading: false});
-            }
-        };
-        this.xhr_aws.send();
-
+        this.xhr_aws = webServiceRequest(ws_aws, true, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({aws_prices:prices});
+            this.setState({aws_current_price:price});
+            this.setState({aws_loading: false});
+          }
+          else
+          {
+            this.setState({aws_loading: false});
+          }
+        });
 
         //var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-prices";
         var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-skus";
 
-        this.xhr_azure = new XMLHttpRequest();
-        this.xhr_azure.open('GET', ws_azure);
-        this.xhr_azure.onload = () => {
-            if(this.xhr_azure.status === 200){
-                console.log(this.xhr_azure.responseText);
-                var local_azure_prices = {};
-                local_azure_prices = JSON.parse(this.xhr_azure.responseText);
-                local_azure_prices = JSON.parse(local_azure_prices.body);
-                local_azure_prices = local_azure_prices.Items;
-
-                var local_price = findRegionRecords(1000, local_azure_prices);
-
-                this.setState({azure_prices: local_azure_prices});
-                this.setState({azure_current_price:local_price});
-                this.setState({azure_loading: false});
-            }
-            else{
-                console.log("Error calling Azure heartbeat service.")
-                //this.setState({azure_alive:'Dead'});
-                this.setState({azure_loading: false});
-            }
-        };
-        this.xhr_azure.send();
+        this.xhr_azure = webServiceRequest(ws_azure, true, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({azure_prices:prices});
+            this.setState({azure_current_price:price});
+            this.setState({azure_loading: false});
+          }
+          else
+          {
+            this.setState({azure_loading: false});
+          }
+        });
 
     }
 
@@ -175,6 +152,12 @@ export default class ServerlessMain extends React.Component{
 
     render(){
 
+      const regionSelected = this.state.function_region_selected;
+      const functionNumber = this.state.function_number;
+      const functionAverageTime = this.state.function_average_time;
+      const functionInvocations = this.state.function_invocations;
+      const functionMemoryAmount = this.state.function_memory;
+
       var gcpLoading = this.state.gcp_loading;
       var awsLoading = this.state.aws_loading;
       var azureLoading = this.state.azure_loading;
@@ -183,11 +166,17 @@ export default class ServerlessMain extends React.Component{
       const localAwsPrices = this.state.aws_current_price;
       const localAzurePrices = this.state.azure_current_price;
 
-      const regionSelected = this.state.function_region_selected;
-      const functionNumber = this.state.function_number;
-      const functionAverageTime = this.state.function_average_time;
-      const functionInvocations = this.state.function_invocations;
-      const functionMemoryAmount = this.state.function_memory;
+      var googleMemory = findRecordType(localGcpPrices, "Memory Time");
+      var googleCpu = findRecordType(localGcpPrices, "CPU Time");
+      var googleInvocations = findRecordType(localGcpPrices, "Invocations");
+
+      googleMemory = this.gcpComputedValues(googleMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleCpu = this.gcpComputedValues(googleCpu, "CPU Time", 200000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleInvocations = this.gcpComputedValues(googleInvocations, "Invocations", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+
+      const gcpTotalAmount = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
+      const awsTotalAmount = 14;
+      const azureTotalAmount = 15.50;
 
       return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
       <div>
@@ -222,14 +211,47 @@ export default class ServerlessMain extends React.Component{
           </Container>
           </Col>
           <Col xs={12} md={6}>
-            <TotalCostComparison/>
+            <TotalCostComparison gcpTotalCost={gcpTotalAmount} awsTotalCost={awsTotalAmount} azureTotalCost={azureTotalAmount} />
           </Col>
         </Row>
       </Container>
       <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
-      <GoogleTable regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount} googleData={localGcpPrices}></GoogleTable>
+      <GoogleTable googleCpuRecord={googleCpu} googleMemoryRecord={googleMemory} googleInvocationRecord={googleInvocations} totalMonthly={gcpTotalAmount}></GoogleTable>
         </div>}
     </div>;
+    }
+
+
+    gcpComputedValues(record, type, discount, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime)
+    {
+      var newRecord = record;
+
+      if(record.name != "N/A")
+      {
+
+        if(type == "Memory Time")
+        {
+          var memoryFraction = functionMemoryAmount/1024;
+          newRecord.unitsConsumed = (memoryFraction * ((functionInvocations * functionAverageTime)/1000)) * functionNumber;
+        }
+        else if (type == "CPU Time")
+        {
+          var cpuFraction = (this.state.gcp_cpu_assignments[functionMemoryAmount].cpu)/1000;
+          newRecord.unitsConsumed = (cpuFraction * ((functionInvocations * functionAverageTime)/1000)) * functionNumber;
+        }
+        else if (type == "Invocations")
+        {
+          newRecord.unitsConsumed = functionNumber * functionInvocations;
+        }
+
+        newRecord.unitsCharged = newRecord.unitsConsumed - discount;
+        if(newRecord.unitsCharged < 0){newRecord.unitsCharged = 0};
+        newRecord.cost = newRecord.unitsCharged * newRecord.pricePerUnit;
+
+      }
+
+      return newRecord;
+
     }
 
 }
