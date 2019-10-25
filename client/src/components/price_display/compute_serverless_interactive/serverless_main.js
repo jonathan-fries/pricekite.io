@@ -8,6 +8,7 @@ import MemoryButton from '../shared/memory_button.js';
 import RunTimeButton from '../shared/run_time_button.js';
 import NumInvocationButton from '../shared/num_invocation_button.js';
 import {findRegionRecords} from '../shared/find_region_record.js';
+import {findRecordType} from '../shared/find_record_type.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
 import GoogleTable from './google_table.js';
@@ -44,9 +45,8 @@ export default class ServerlessMain extends React.Component{
         this.handleRunTimeChange = this.handleRunTimeChange.bind(this);
         this.handleInvocationsChange = this.handleInvocationsChange.bind(this);
         this.handleMemoryChange = this.handleMemoryChange.bind(this);
-        this.getInvocationRecord = this.getInvocationRecord.bind(this);
-        this.getCPURecord = this.getCPURecord.bind(this);
-        this.getMemoryRecord = this.getMemoryRecord.bind(this);
+
+        this.gcpComputedValues = this.gcpComputedValues.bind(this);
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
 
@@ -181,6 +181,12 @@ export default class ServerlessMain extends React.Component{
 
     render(){
 
+      const regionSelected = this.state.function_region_selected;
+      const functionNumber = this.state.function_number;
+      const functionAverageTime = this.state.function_average_time;
+      const functionInvocations = this.state.function_invocations;
+      const functionMemoryAmount = this.state.function_memory;
+
       var gcpLoading = this.state.gcp_loading;
       var awsLoading = this.state.aws_loading;
       var azureLoading = this.state.azure_loading;
@@ -189,15 +195,17 @@ export default class ServerlessMain extends React.Component{
       const localAwsPrices = this.state.aws_current_price;
       const localAzurePrices = this.state.azure_current_price;
 
-      const regionSelected = this.state.function_region_selected;
-      const functionNumber = this.state.function_number;
-      const functionAverageTime = this.state.function_average_time;
-      const functionInvocations = this.state.function_invocations;
-      const functionMemoryAmount = this.state.function_memory;
+      var googleMemory = findRecordType(localGcpPrices, "Memory Time");
+      var googleCpu = findRecordType(localGcpPrices, "CPU Time");
+      var googleInvocations = findRecordType(localGcpPrices, "Invocations");
 
-      const googleInvocations = this.getInvocationRecord(localGcpPrices, functionNumber, functionInvocations, 2000000);
-      const googleMemory = this.getMemoryRecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 400000);
-      const googleCpu = this.getCPURecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 200000);
+      googleMemory = this.gcpComputedValues(googleMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleCpu = this.gcpComputedValues(googleCpu, "CPU Time", 200000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleInvocations = this.gcpComputedValues(googleInvocations, "Invocations", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+
+      //const googleInvocations = this.getInvocationRecord(localGcpPrices, functionNumber, functionInvocations, 2000000);
+      //const googleMemory = this.getMemoryRecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 400000);
+      //const googleCpu = this.getCPURecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 200000);
 
       const gcpTotalAmount = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
       const awsTotalAmount = 14;
@@ -246,73 +254,37 @@ export default class ServerlessMain extends React.Component{
     </div>;
     }
 
-    getInvocationRecord(googleData, numberOfFunctions, functionInvocations, invocationDiscount){
-      var i = 0;
-      var invocationRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
-      for(i; i< googleData.length; i++)
+
+    gcpComputedValues(record, type, discount, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime)
+    {
+      var newRecord = record;
+
+      if(record.name != "N/A")
       {
-        if(googleData[i].name == "Invocations")
+
+        if(type == "Memory Time")
         {
-          invocationRecord = googleData[i];
+          var memoryFraction = functionMemoryAmount/1024;
+          newRecord.unitsConsumed = (memoryFraction * ((functionInvocations * functionAverageTime)/1000)) * functionNumber;
         }
-      }
-
-      if(invocationRecord.name != "N/A")
-      {
-        invocationRecord.unitsConsumed = numberOfFunctions * functionInvocations;
-        invocationRecord.unitsCharged = invocationRecord.unitsConsumed - invocationDiscount;
-        if(invocationRecord.unitsCharged < 0){invocationRecord.unitsCharged = 0;}
-        invocationRecord.cost = invocationRecord.unitsCharged * invocationRecord.pricePerUnit;
-      }
-
-      return invocationRecord;
-    }
-
-    getCPURecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, cpuDiscount){
-      var i = 0;
-      var cpuRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
-      for(i; i< googleData.length; i++)
-      {
-        if(googleData[i].name == "CPU Time")
+        else if (type == "CPU Time")
         {
-          cpuRecord = googleData[i];
+          var cpuFraction = (this.state.gcp_cpu_assignments[functionMemoryAmount].cpu)/1000;
+          newRecord.unitsConsumed = (cpuFraction * ((functionInvocations * functionAverageTime)/1000)) * functionNumber;
         }
-      }
-
-      if(cpuRecord.name != "N/A")
-      {
-        var cpuFraction = (this.state.gcp_cpu_assignments[functionMemoryAmount].cpu)/1000;
-
-        cpuRecord.unitsConsumed = (cpuFraction * ((functionInvocations * functionAverageTime)/1000)) * numberOfFunctions;
-        cpuRecord.unitsCharged = cpuRecord.unitsConsumed - cpuDiscount;
-        if(cpuRecord.unitsCharged < 0){cpuRecord.unitsCharged = 0};
-        cpuRecord.cost = cpuRecord.unitsCharged * cpuRecord.pricePerUnit;
-      }
-
-      return cpuRecord;
-    }
-
-    getMemoryRecord(googleData, numberOfFunctions, functionInvocations, functionAverageTime, functionMemoryAmount, memoryDiscount){
-      var i = 0;
-      var memoryRecord = { "name" : "N/A", "pricePerUnit" : 0, "unit" : "N/A", "unitsCharged": 0, "unitsConsumed" : 0, "cost" : 0 };
-      for(i; i< googleData.length; i++)
-      {
-        if(googleData[i].name == "Memory Time")
+        else if (type == "Invocations")
         {
-          memoryRecord = googleData[i];
+          newRecord.unitsConsumed = functionNumber * functionInvocations;
         }
+
+        newRecord.unitsCharged = newRecord.unitsConsumed - discount;
+        if(newRecord.unitsCharged < 0){newRecord.unitsCharged = 0};
+        newRecord.cost = newRecord.unitsCharged * newRecord.pricePerUnit;
+
       }
 
-      if(memoryRecord.name != "N/A")
-      {
-        var memoryFraction = functionMemoryAmount/1024;
-        memoryRecord.unitsConsumed = (memoryFraction * ((functionInvocations * functionAverageTime)/1000)) * numberOfFunctions;
-        memoryRecord.unitsCharged = memoryRecord.unitsConsumed - memoryDiscount;
-        if(memoryRecord.unitsCharged < 0){memoryRecord.unitsCharged = 0};
-        memoryRecord.cost = memoryRecord.unitsCharged * memoryRecord.pricePerUnit;
-      }
+      return newRecord;
 
-      return memoryRecord;
     }
 
 }
