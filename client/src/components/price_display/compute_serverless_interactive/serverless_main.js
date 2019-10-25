@@ -9,6 +9,7 @@ import RunTimeButton from '../shared/run_time_button.js';
 import NumInvocationButton from '../shared/num_invocation_button.js';
 import {findRegionRecords} from '../shared/find_region_record.js';
 import {findRecordType} from '../shared/find_record_type.js';
+import {webServiceRequest} from '../shared/web_service_request.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
 import GoogleTable from './google_table.js';
@@ -50,80 +51,50 @@ export default class ServerlessMain extends React.Component{
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
 
-        this.xhr = new XMLHttpRequest();
-        this.xhr.open('GET', ws);
-        this.xhr.onload = () => {
-            if(this.xhr.status === 200){
-                console.log(this.xhr.responseText);
-                var local_gcp_prices = {};
-                local_gcp_prices = JSON.parse(this.xhr.responseText);
+        this.xhr = webServiceRequest(ws, false, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({gcp_prices:prices});
+            this.setState({gcp_current_price:price});
+            this.setState({gcp_loading: false});
+          }
+          else
+          {
+            this.setState({gcp_loading: false});
+          }
+        });
 
-                var local_price = findRegionRecords(1000, local_gcp_prices);
-
-                this.setState({gcp_prices:local_gcp_prices});
-                this.setState({gcp_current_price:local_price});
-                this.setState({gcp_loading: false});
-            }
-            else{
-                console.log("Error calling web service.");
-                //this.setState({gcp_alive:'Dead'});
-                this.setState({gcp_loading: false});
-            }
-        };
-        this.xhr.send();
 
         var ws_aws = "https://api.pricekite.io/v1/aws-compute-serverless-skus";
 
-        this.xhr_aws = new XMLHttpRequest();
-        this.xhr_aws.open('GET', ws_aws);
-        this.xhr_aws.onload = () => {
-            if(this.xhr_aws.status === 200){
-                console.log(this.xhr_aws.responseText);
-                var local_aws_prices = {};
-                local_aws_prices = JSON.parse(this.xhr_aws.responseText);
-                local_aws_prices = JSON.parse(local_aws_prices.body);
-
-                var local_price = findRegionRecords(1000, local_aws_prices);
-
-                this.setState({aws_current_price:local_price});
-                this.setState({aws_prices: local_aws_prices});
-                this.setState({aws_loading: false});
-            }
-            else{
-                console.log("Error calling AWS heartbeat service.")
-                //this.setState({aws_alive:'Dead'});
-                this.setState({aws_loading: false});
-            }
-        };
-        this.xhr_aws.send();
-
+        this.xhr_aws = webServiceRequest(ws_aws, true, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({aws_prices:prices});
+            this.setState({aws_current_price:price});
+            this.setState({aws_loading: false});
+          }
+          else
+          {
+            this.setState({aws_loading: false});
+          }
+        });
 
         //var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-prices";
         var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-skus";
 
-        this.xhr_azure = new XMLHttpRequest();
-        this.xhr_azure.open('GET', ws_azure);
-        this.xhr_azure.onload = () => {
-            if(this.xhr_azure.status === 200){
-                console.log(this.xhr_azure.responseText);
-                var local_azure_prices = {};
-                local_azure_prices = JSON.parse(this.xhr_azure.responseText);
-                local_azure_prices = JSON.parse(local_azure_prices.body);
-                local_azure_prices = local_azure_prices.Items;
-
-                var local_price = findRegionRecords(1000, local_azure_prices);
-
-                this.setState({azure_prices: local_azure_prices});
-                this.setState({azure_current_price:local_price});
-                this.setState({azure_loading: false});
-            }
-            else{
-                console.log("Error calling Azure heartbeat service.")
-                //this.setState({azure_alive:'Dead'});
-                this.setState({azure_loading: false});
-            }
-        };
-        this.xhr_azure.send();
+        this.xhr_azure = webServiceRequest(ws_azure, true, (success, price, prices) =>{
+          if(success)
+          {
+            this.setState({azure_prices:prices});
+            this.setState({azure_current_price:price});
+            this.setState({azure_loading: false});
+          }
+          else
+          {
+            this.setState({azure_loading: false});
+          }
+        });
 
     }
 
@@ -202,10 +173,6 @@ export default class ServerlessMain extends React.Component{
       googleMemory = this.gcpComputedValues(googleMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
       googleCpu = this.gcpComputedValues(googleCpu, "CPU Time", 200000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
       googleInvocations = this.gcpComputedValues(googleInvocations, "Invocations", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
-
-      //const googleInvocations = this.getInvocationRecord(localGcpPrices, functionNumber, functionInvocations, 2000000);
-      //const googleMemory = this.getMemoryRecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 400000);
-      //const googleCpu = this.getCPURecord(localGcpPrices, functionNumber, functionInvocations, functionAverageTime, functionMemoryAmount, 200000);
 
       const gcpTotalAmount = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
       const awsTotalAmount = 14;
