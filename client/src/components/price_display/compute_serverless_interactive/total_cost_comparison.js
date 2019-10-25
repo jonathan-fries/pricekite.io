@@ -21,11 +21,11 @@ export default class TotalCostComparison extends React.Component{
             </tr>
             <tr>
               <td>AWS</td>
-              <td>{awsTotalCost}</td>
+              <td>${awsTotalCost.toFixed(2)}</td>
             </tr>
             <tr>
-              <td>Azr</td>
-              <td>{azureTotalCost}</td>
+              <td>Azure</td>
+              <td>${azureTotalCost.toFixed(2)}</td>
             </tr>
           </tbody>
         </Table>;

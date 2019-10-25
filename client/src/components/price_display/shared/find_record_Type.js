@@ -7,6 +7,10 @@ export function findRecordType(records, recordType){
     if(records[i].name == recordType)
     {
       record = records[i];
+      if(record.provider == "AWS")
+      {
+        record.pricePerUnit = parseFloat(record.pricePerUnit);
+      }
     }
   }
   return record;

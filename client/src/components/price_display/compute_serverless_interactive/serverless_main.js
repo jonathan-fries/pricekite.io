@@ -13,6 +13,8 @@ import {webServiceRequest} from '../shared/web_service_request.js';
 import DisplayState from './display_state.js';
 import './serverless_main.scss';
 import GoogleTable from './google_table.js';
+import AzureTable from './azure_table.js';
+import AWSTable from './aws_table.js';
 import TotalCostComparison from './total_cost_comparison.js';
 
 //import { Wave } from 'react-animated-text';
@@ -47,11 +49,11 @@ export default class ServerlessMain extends React.Component{
         this.handleInvocationsChange = this.handleInvocationsChange.bind(this);
         this.handleMemoryChange = this.handleMemoryChange.bind(this);
 
-        this.gcpComputedValues = this.gcpComputedValues.bind(this);
+        this.computedValues = this.computedValues.bind(this);
 
         var ws = "https://api.pricekite.io/v1/gcp-compute-serverless-skus";
 
-        this.xhr = webServiceRequest(ws, false, (success, price, prices) =>{
+        this.xhr = webServiceRequest(ws, "GCP", (success, price, prices) =>{
           if(success)
           {
             this.setState({gcp_prices:prices});
@@ -67,7 +69,7 @@ export default class ServerlessMain extends React.Component{
 
         var ws_aws = "https://api.pricekite.io/v1/aws-compute-serverless-skus";
 
-        this.xhr_aws = webServiceRequest(ws_aws, true, (success, price, prices) =>{
+        this.xhr_aws = webServiceRequest(ws_aws, "AWS", (success, price, prices) =>{
           if(success)
           {
             this.setState({aws_prices:prices});
@@ -83,7 +85,7 @@ export default class ServerlessMain extends React.Component{
         //var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-prices";
         var ws_azure = "https://api.pricekite.io/v1/azure-compute-serverless-skus";
 
-        this.xhr_azure = webServiceRequest(ws_azure, true, (success, price, prices) =>{
+        this.xhr_azure = webServiceRequest(ws_azure, "Azure", (success, price, prices) =>{
           if(success)
           {
             this.setState({azure_prices:prices});
@@ -166,17 +168,29 @@ export default class ServerlessMain extends React.Component{
       const localAwsPrices = this.state.aws_current_price;
       const localAzurePrices = this.state.azure_current_price;
 
+      var awsMemory = findRecordType(localAwsPrices, "Serverless Compute");
+      var awsInvocations = findRecordType(localAwsPrices, "Serverless Requests");
+
+      awsMemory = this.computedValues(awsMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      awsInvocations = this.computedValues(awsInvocations, "Invocations", 1000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+
+      var azureMemory = findRecordType(localAzurePrices, "Execution Time");
+      var azureInvocations = findRecordType(localAzurePrices, "Total Executions");
+
+      azureMemory = this.computedValues(azureMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      azureInvocations = this.computedValues(azureInvocations, "Invocations", 1000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+
       var googleMemory = findRecordType(localGcpPrices, "Memory Time");
       var googleCpu = findRecordType(localGcpPrices, "CPU Time");
       var googleInvocations = findRecordType(localGcpPrices, "Invocations");
 
-      googleMemory = this.gcpComputedValues(googleMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
-      googleCpu = this.gcpComputedValues(googleCpu, "CPU Time", 200000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
-      googleInvocations = this.gcpComputedValues(googleInvocations, "Invocations", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleMemory = this.computedValues(googleMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleCpu = this.computedValues(googleCpu, "CPU Time", 200000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      googleInvocations = this.computedValues(googleInvocations, "Invocations", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
 
       const gcpTotalAmount = googleInvocations.cost + googleMemory.cost + googleCpu.cost;
-      const awsTotalAmount = 14;
-      const azureTotalAmount = 15.50;
+      const awsTotalAmount = awsInvocations.cost + awsMemory.cost;
+      const azureTotalAmount = azureInvocations.cost + azureMemory.cost;
 
       return <div>{ (awsLoading || azureLoading || gcpLoading) ? <Wave text="Thinking..." effect="fadeOut"/> : <div>
       <div>
@@ -216,13 +230,15 @@ export default class ServerlessMain extends React.Component{
         </Row>
       </Container>
       <DisplayState regionSelected={regionSelected} functionNumber ={functionNumber} functionAverageTime={functionAverageTime} functionInvocations={functionInvocations} functionMemoryAmount={functionMemoryAmount}></DisplayState>
+      <AWSTable awsMemoryRecord={awsMemory}  awsInvocationRecord={awsInvocations} totalMonthly={awsTotalAmount}></AWSTable>
+      <AzureTable azureMemoryRecord={azureMemory}  azureInvocationRecord={azureInvocations} totalMonthly={azureTotalAmount}></AzureTable>
       <GoogleTable googleCpuRecord={googleCpu} googleMemoryRecord={googleMemory} googleInvocationRecord={googleInvocations} totalMonthly={gcpTotalAmount}></GoogleTable>
         </div>}
     </div>;
     }
 
 
-    gcpComputedValues(record, type, discount, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime)
+    computedValues(record, type, discount, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime)
     {
       var newRecord = record;
 
