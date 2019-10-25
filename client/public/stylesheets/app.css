@@ -57,6 +57,9 @@ ul {
 .buttonFloat {
   float: right; }
 
+.buttonPadding {
+  padding: 8px; }
+
 .providerColumn {
   width: 30px;
   min-width: 30px; }
@@ -79,6 +82,17 @@ ul {
 .textStuff {
   float: left;
   width: 80%; }
+
+.rondedCorner {
+  border-radius: 5px; }
+
+.inputPadding {
+  padding: 8px;
+  margin: 8px; }
+
+.containerFormat {
+  margin: 0px;
+  padding: 10px; }
 
 .regionsText {
   float: left; }
