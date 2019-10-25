@@ -27,6 +27,7 @@ export default class NumInvocationButton extends React.Component{
                   <Dropdown.Item value="1000000">1 million</Dropdown.Item>
                   <Dropdown.Item value="5000000">5 million</Dropdown.Item>
                   <Dropdown.Item value="10000000">10 million</Dropdown.Item>
+                  <Dropdown.Item value="12960000">12,960,000</Dropdown.Item>
                   <Dropdown.Item value="25000000">25 million</Dropdown.Item>
                   <Dropdown.Item value="50000000">50 million</Dropdown.Item>
                   <Dropdown.Item value="100000000">100 million</Dropdown.Item>
