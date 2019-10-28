@@ -16,6 +16,7 @@ export default class AzureTable extends React.Component{
 
         return <div >
         <h2>Azure</h2>
+        <p>Please note that Azure invocation SKUs are for groups of 10. That is why the number is different.</p>
         <Table striped bordered hover responsive="sm">
           <thead>
             <tr>

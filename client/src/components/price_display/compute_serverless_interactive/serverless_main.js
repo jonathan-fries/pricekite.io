@@ -171,14 +171,14 @@ export default class ServerlessMain extends React.Component{
       var awsMemory = findRecordType(localAwsPrices, "Serverless Compute");
       var awsInvocations = findRecordType(localAwsPrices, "Serverless Requests");
 
-      awsMemory = this.computedValues(awsMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      awsMemory = this.computedValues(awsMemory, "Memory Time", 2000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
       awsInvocations = this.computedValues(awsInvocations, "Invocations", 1000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
 
       var azureMemory = findRecordType(localAzurePrices, "Execution Time");
       var azureInvocations = findRecordType(localAzurePrices, "Total Executions");
 
       azureMemory = this.computedValues(azureMemory, "Memory Time", 400000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
-      azureInvocations = this.computedValues(azureInvocations, "Invocations", 1000000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
+      azureInvocations = this.computedValues(azureInvocations, "Invocations", 100000, functionNumber, functionMemoryAmount, functionInvocations, functionAverageTime);
 
       var googleMemory = findRecordType(localGcpPrices, "Memory Time");
       var googleCpu = findRecordType(localGcpPrices, "CPU Time");
@@ -258,6 +258,10 @@ export default class ServerlessMain extends React.Component{
         else if (type == "Invocations")
         {
           newRecord.unitsConsumed = functionNumber * functionInvocations;
+          if(newRecord.provider == "Azure")
+          {
+            newRecord.unitsConsumed = newRecord.unitsConsumed/10;
+          }
         }
 
         newRecord.unitsCharged = newRecord.unitsConsumed - discount;

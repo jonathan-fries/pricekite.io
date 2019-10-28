@@ -25,6 +25,7 @@ export default class RunTimeButton extends React.Component{
                   <Dropdown.Item value="20">25 ms</Dropdown.Item>
                   <Dropdown.Item value="50">50 ms</Dropdown.Item>
                   <Dropdown.Item value="100">100 ms</Dropdown.Item>
+                  <Dropdown.Item value="200">200 ms</Dropdown.Item>
                   <Dropdown.Item value="250">250 ms</Dropdown.Item>
                   <Dropdown.Item value="500">500 ms</Dropdown.Item>
                   <Dropdown.Item value="750">750 ms</Dropdown.Item>
