@@ -1,4 +1,4 @@
-export function findRegionRecord(regionId, records)
+export function findRegionRecords(regionId, records)
 {
   var regionRecords = [];
   //var regionRecord = {provider: 'Not Found', daily: 0.00 };
@@ -10,7 +10,6 @@ export function findRegionRecord(regionId, records)
       if(records[i].pricekiteRegionId === regionId)
       {
         regionRecords.push(records[i]);
-        break;
       }
     }
 

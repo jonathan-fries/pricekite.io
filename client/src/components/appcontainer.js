@@ -16,7 +16,7 @@ export default class AppContainer extends React.Component {
                 <Navigation />
                 <div className='clearBoth'></div>
                 <div className='contentBox'>
-                  <Route exact path="/" component={ComputeServerless}/>
+                  <Route exact path="/" component={ComputeServerlessInteractive}/>
                   <Route path="/interactive_compute" component={ComputeServerlessInteractive}/>
                   <Route path="/ipAddresses" component={IpAddresses} />
                   <Route path="/regions" component={Regions}/>
