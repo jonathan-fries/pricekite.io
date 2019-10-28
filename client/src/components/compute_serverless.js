@@ -1,11 +1,14 @@
 import React from 'react';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import StatusIndicator from './status_indicator/status_indicator';
+import './home.scss';
+import Summary from './price_display/compute_serverless/summary.js';
 
-export default class About extends React.Component{
+export default class ComputeServerless extends React.Component{
 
   constructor(props){
         super(props);
-        this.state = {contentfulItems:{ title: 'About Pricekite', descriptions:[]}};
+        this.state = {contentfulItems:{ title: 'Serverless Compute Pricing', descriptions:[]}};
 
         var contentful = require('contentful');
 
@@ -14,7 +17,7 @@ export default class About extends React.Component{
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        this.client.getEntry('6v03ToUq3gJ7f6h35X28TE')
+        this.client.getEntry('1vsV40J7PtxvwjXMFwx8CV')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -42,14 +45,20 @@ export default class About extends React.Component{
 
       componentDidMount()
       {
-        document.title = "About Pricekite.io";
-        //document.description = "Information about how Pricekite.io works and why we do what we do.";
+        document.title = "Serverless Compute Price Comparison";
+        //document.description = "This page compares the prices for serverless compute.  It compares AWS Lambda, Azure Functions, and Google Cloud Functions.";
       }
 
     render(){
+
         return <div>
-                  <h2>{this.state.contentfulItems.title}</h2>
-                  {documentToReactComponents(this.state.contentfulItems.description)}
+                  <div><div className="ipAddressText"><h2>{this.state.contentfulItems.title}</h2>
+                  <div>{documentToReactComponents(this.state.contentfulItems.description)}</div></div>
+                  <div className="statusDiv"><StatusIndicator/></div></div>
+                  <div className="clearIt"></div>
+                  <div>
+                    <Summary />
+                  </div>
                 </div>;
     }
 }

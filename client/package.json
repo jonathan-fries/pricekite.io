@@ -14,7 +14,9 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "package": "webpack&& deploy.bat"
+    "webpack": "webpack",
+    "runLocal": "webpack && firebase serve",
+    "package": "webpack&& firebase deploy"
   },
   "devDependencies": {
     "@babel/core": "*",

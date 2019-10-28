@@ -19,6 +19,15 @@ render() {
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
       <Nav id="pricekiteNavigation" className="mr-auto">
+      <LinkContainer  to='/interactive_compute'>
+        <Nav.Link>Compute</Nav.Link>
+      </LinkContainer>
+      <LinkContainer  to='/ipAddresses'>
+        <Nav.Link>IP Addresses</Nav.Link>
+      </LinkContainer>
+      <LinkContainer  to='/regions'>
+        <Nav.Link>Regions</Nav.Link>
+      </LinkContainer>
        <LinkContainer  to='/about'>
          <Nav.Link>About</Nav.Link>
        </LinkContainer>

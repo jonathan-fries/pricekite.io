@@ -6,7 +6,7 @@ export default class Header extends React.Component {
     render() {
         return <Navbar fixed="bottom" bg="dark" variant="dark">
         <Navbar.Brand>
-          <a href="https://jonathanfries.net"><span>© 2019 by Jonathan Fries</span></a>
+          <a href="https://jonathanfries.net"><span>© 2019 by Jonathan Fries</span></a><span>   Current version - v 1.0.0</span>
         </Navbar.Brand>
         </Navbar>
     }

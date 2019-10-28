@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import './column_styles.scss'
+import '../column_styles.scss'
 import { Wave } from 'react-animated-text';
 
 export default class AWSIpAddress extends React.Component{
@@ -9,7 +9,7 @@ export default class AWSIpAddress extends React.Component{
         super(props);
         this.state = {loading: true, awsPriceItem:{ name: 'Thinking...', monthly: '', skuId: ''}};
 
-        var ws = "https://kew5wzdxwh.execute-api.us-east-1.amazonaws.com/prod";
+        var ws = "https://api.pricekite.io/v1/aws-ip-address-prices";
 
         var xhr = new XMLHttpRequest();
         xhr.open('GET', ws);

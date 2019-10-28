@@ -3,6 +3,8 @@ import GoogleIpAddress from './price_display/static_ip_address/google_ip_address
 import AzureIpAddress from './price_display/static_ip_address/azure_ip_address';
 import AWSIpAddress from './price_display/static_ip_address/aws_ip_address';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import StatusIndicator from './status_indicator/status_indicator';
+import './ipAddresses.scss';
 
 export default class Home extends React.Component{
 
@@ -12,12 +14,12 @@ export default class Home extends React.Component{
 
         var contentful = require('contentful');
 
-        var client = contentful.createClient({
+        this.client = contentful.createClient({
             space: 'qgqta6z9ueb1',
             accessToken: 'yZTWvh8c5qnTyKuYnQ45_kzTO6IVynSI6K4c2Hx11mI'
           })
 
-        client.getEntry('6NW2FdhjgFdWo1ISgltEUp')
+        this.client.getEntry('6NW2FdhjgFdWo1ISgltEUp')
           .then((entry) => {
             // logs the entry metadata
             console.log(entry.sys)
@@ -38,16 +40,31 @@ export default class Home extends React.Component{
 
       }
 
+      componentWillUnmount()
+      {
+        //this.client = null;
+      }
+
+      componentDidMount()
+      {
+        document.title = "Static IP Address Price Comparison";
+        //document.description = "This page compares the prices for static IP Addresses.  It compares AWS, Microsoft Azure, and Google Cloud.";
+      }
+
     render(){
         return <div>
-                  <h2>{this.state.contentfulItems.title}</h2>
-                  {documentToReactComponents(this.state.contentfulItems.description)}
-                  <h2>Google</h2>
+                  <div><div className="ipAddressText"><h2>{this.state.contentfulItems.title}</h2>
+                  <div>{documentToReactComponents(this.state.contentfulItems.description)}</div></div>
+                  <div className="statusDiv"><StatusIndicator/></div></div>
+                  <div className="clearIt"></div>
+                  <div>
+                  <h2>Google</h2><span>Region: US-Central1</span>
                   <GoogleIpAddress/>
-                  <h2>AWS</h2>
+                  <h2>AWS</h2><span>Region: US East (N. Virginia)</span>
                   <AWSIpAddress />
-                  <h2>Azure</h2>
+                  <h2>Azure</h2><span>Region: East US</span>
                   <AzureIpAddress />
+                  </div>
                 </div>;
     }
 }
