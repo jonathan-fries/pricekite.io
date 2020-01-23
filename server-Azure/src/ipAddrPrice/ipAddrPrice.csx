@@ -27,10 +27,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     ClientCredential clientCred = new ClientCredential(clientId, clientSecret);
 
+    log.Info(clientCred.ToString());
+
     //authenticate
     AuthenticationResult authenticationResult = await authContext.AcquireTokenAsync(resourceUri,clientCred);
 
     string token = authenticationResult.AccessToken;
+
+    log.Info(token);
 
     if (token == null)
     {
@@ -41,7 +45,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
                        "https://management.azure.com",
                        "subscriptions",
                        Environment.GetEnvironmentVariable("SUBSCRIPTION_ID"),
-                       "providers/Microsoft.Commerce/RateCard?api-version=2016-08-31-preview&$filter=OfferDurableId eq 'MS-AZR-0121p' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'");
+                       "providers/Microsoft.Commerce/RateCard?api-version=2016-08-31-preview&$filter=OfferDurableId eq 'MS-AZR-0003P' and Currency eq 'USD' and Locale eq 'en-US' and RegionInfo eq 'US'");
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requestURL);
 
             // Add the OAuth Authorization header, and Content Type header
